@@ -208,20 +208,25 @@ function AccordionPageContent() {
           </div>
           
           <p className="text-xs sm:text-sm text-muted-foreground text-center">
-            Inspirado no{' '}
+            Desenvolvido por{' '}
+            <a 
+              href="https://www.srcompanytechsolutions.com/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-amber-500 dark:text-amber-500 light:text-orange-500 hover:underline font-medium"
+            >
+              SRC Ltda
+            </a>
+            {' '}· Inspirado no{' '}
             <a 
               href="https://acordeonvirtual.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-amber-400 dark:text-amber-400 hover:underline"
+              className="text-amber-400 dark:text-amber-400 light:text-orange-400 hover:underline"
             >
               Acordeão Virtual
             </a>
           </p>
-          
-          <div className="flex items-center gap-4">
-            <Badge variant="secondary" className="border-amber-500/20 bg-amber-950/50 text-amber-300/80 dark:border-amber-500/20 dark:bg-amber-950/50 dark:text-amber-300/80">🇧🇷 Brasil</Badge>
-          </div>
         </div>
       </footer>
     </div>
