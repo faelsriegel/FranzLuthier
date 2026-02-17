@@ -331,8 +331,8 @@ export default function HomePage() {
                 <p className="text-[11px] uppercase tracking-[0.34em] text-zinc-500">Franz Luthier</p>
 
                 <h1 className="mx-auto mt-5 max-w-4xl text-[clamp(1.55rem,6vw,4.4rem)] text-pretty font-light leading-[1.05] tracking-[-0.018em] text-zinc-900 md:mt-7">
-                  Luthier para seu
-                  <span className="block font-normal italic">{renderTitleWithGradientTail('melhor som.')}</span>
+                  Onde som, técnica e paixão
+                  <span className="block font-normal italic">{renderTitleWithGradientTail('se encontram.')}</span>
                 </h1>
 
                 <p className="mx-auto mt-4 max-w-2xl px-1 text-[13px] leading-[1.8] text-zinc-600 md:mt-8 md:text-[17px] md:leading-[1.72]">
@@ -355,12 +355,6 @@ export default function HomePage() {
                   </Button>
                 </div>
 
-                <p className="mx-auto mt-7 max-w-3xl text-[13px] leading-[1.85] text-zinc-600 md:mt-9 md:text-[15px] md:leading-[1.85]">
-                  Se você procura um luthier em São Bento do Sul para melhorar tocabilidade, afinação e resposta sonora, este atendimento foi pensado para isso.
-                  O trabalho de luthier começa com diagnóstico técnico, passa por regulagem fina e termina com revisão completa para garantir estabilidade no uso diário.
-                  Cada instrumento recebe atenção individual, seja para manutenção preventiva, reparo corretivo, troca de componentes ou ajuste de performance.
-                  O objetivo é simples: entregar conforto real para tocar, melhor sonoridade e confiança em estúdio, ensaio, palco ou estudo.
-                </p>
               </motion.div>
             </div>
           </div>
@@ -422,12 +416,6 @@ export default function HomePage() {
               ))}
             </div>
 
-            <p className="mt-8 max-w-5xl text-[14px] leading-[1.85] text-zinc-600 md:mt-10 md:text-[15px]">
-              Um serviço de luthier bem executado não é apenas estética: ele melhora afinação ao longo do braço, estabilidade de oitavas, equilíbrio entre cordas e dinâmica da pegada.
-              Na prática, isso significa menos esforço da mão esquerda, ataques mais definidos e sustain mais controlado.
-              Em instrumentos acústicos e elétricos, o processo de luthier considera clima, calibre de corda, estilo do músico e objetivo sonoro para chegar a um ajuste realmente personalizado.
-              Esse cuidado evita retrabalho e aumenta a vida útil das peças, deixando o instrumento pronto para tocar por mais tempo com segurança.
-            </p>
           </div>
         </section>
 
@@ -452,12 +440,6 @@ export default function HomePage() {
               ))}
             </div>
 
-            <p className="mt-8 max-w-5xl text-[14px] leading-[1.85] text-zinc-600 md:mt-10 md:text-[15px]">
-              O diferencial de um bom luthier está na soma entre experiência de bancada e escuta do que o músico realmente precisa.
-              Nem todo ajuste serve para todo instrumento, por isso cada etapa é validada com critério técnico e percepção sonora.
-              Esse processo inclui inspeção estrutural, análise de trastes, checagem elétrica quando necessário e regulagem final de ação e entonação.
-              Com isso, o instrumento volta mais equilibrado, confortável e previsível, preservando o timbre e melhorando a performance em qualquer contexto de uso.
-            </p>
           </div>
         </section>
 
@@ -548,12 +530,6 @@ export default function HomePage() {
               title="Luthier em São Bento do Sul, SC"
               description="Atendimento local de luthier com envio para todo o Brasil."
             />
-            <p className="mb-5 max-w-4xl text-[14px] leading-[1.85] text-zinc-600 md:text-[15px]">
-              O ateliê de luthier está em São Bento do Sul, com atendimento para músicos da região e também de outras cidades.
-              Para quem não consegue atendimento presencial, há orientação para envio seguro do instrumento e retorno com embalagem adequada.
-              Isso permite receber um serviço de luthier completo, com o mesmo padrão técnico, mesmo à distância.
-              Se você busca regulagem, manutenção ou melhoria de performance, o contato pode ser feito diretamente pelo WhatsApp ou pelas redes sociais.
-            </p>
             <div className="mb-6 -mt-4">
               <Button asChild size="sm" variant="outline" className="h-10 rounded-full border-stone-300 bg-white px-5 text-zinc-900 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100 hover:text-zinc-900">
                 <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
