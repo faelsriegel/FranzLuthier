@@ -6,7 +6,7 @@ import Script from 'next/script';
 import { useId, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
-import { ArrowUpRight, ChevronLeft, ChevronRight, Clock3, Facebook, Instagram, MapPin, ShieldCheck, Wrench } from 'lucide-react';
+import { ArrowUpRight, ChevronLeft, ChevronRight, Clock3, Facebook, Guitar, Instagram, MapPin, Music2, Share2, ShieldCheck, Wrench } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
@@ -102,7 +102,7 @@ const localBusinessJsonLd = {
 
 const services = [
   {
-    icon: Wrench,
+    icon: Guitar,
     title: 'Regulagem completa',
     description: 'Ajuste preciso de ação, oitavas e tocabilidade para resposta confortável e sonora equilibrada.',
     points: ['Ação e oitavas calibradas', 'Conforto e estabilidade ao tocar'],
@@ -114,7 +114,7 @@ const services = [
     points: ['Revisão estrutural e elétrica', 'Acabamento limpo e consistente'],
   },
   {
-    icon: Wrench,
+    icon: Music2,
     title: 'Customização',
     description: 'Upgrades sob medida para performance, identidade sonora e melhor experiência de uso.',
     points: ['Configuração personalizada', 'Melhoria de performance real'],
@@ -143,7 +143,7 @@ const differentials = [
 ];
 
 const cardClass =
-  'group rounded-2xl border border-stone-200/90 bg-gradient-to-b from-white to-stone-50/60 p-7 shadow-[0_1px_0_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(41,37,36,0.12)]';
+  'group rounded-2xl border border-stone-200/90 bg-gradient-to-b from-white to-stone-50/60 p-7 shadow-[0_1px_0_rgba(0,0,0,0.03)] transition-all duration-500 ease-out hover:-translate-y-1 hover:border-stone-300 hover:shadow-[0_20px_40px_rgba(41,37,36,0.14)]';
 
 const titleGradientClass =
   'inline-block bg-[linear-gradient(110deg,#2A1B14_0%,#6B3F26_35%,#B77A45_68%,#E9C79B_100%)] bg-clip-text text-transparent';
@@ -256,8 +256,13 @@ function PatternCard({
       className={cardClass}
     >
       <div className="flex items-start justify-between gap-3">
-        <GradientLucideIcon icon={Icon} className="h-5 w-5" />
-        <span className="text-[11px] uppercase tracking-[0.22em] text-zinc-400">0{index + 1}</span>
+        <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 bg-gradient-to-b from-white to-stone-100 shadow-[0_6px_14px_rgba(41,37,36,0.08)]">
+          <GradientLucideIcon icon={Icon} className="h-5 w-5" />
+        </span>
+
+        <span className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-300 bg-gradient-to-b from-white to-stone-100 text-[11px] font-medium shadow-[0_6px_14px_rgba(41,37,36,0.08)]">
+          <span className={titleGradientClass}>0{index + 1}</span>
+        </span>
       </div>
 
       <h3 className="mt-5.5 text-[1.08rem] leading-[1.3] font-normal text-zinc-900">{title}</h3>
@@ -289,6 +294,27 @@ export default function HomePage() {
     });
   };
 
+  const handleShareSite = async () => {
+    const shareUrl = SITE_URL;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Franz Luthier',
+          text: 'Confira o site do Franz Luthier',
+          url: shareUrl,
+        });
+        return;
+      }
+
+      await navigator.clipboard.writeText(shareUrl);
+      alert('Link do site copiado para a área de transferência.');
+    } catch {
+      await navigator.clipboard.writeText(shareUrl);
+      alert('Link do site copiado para a área de transferência.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-stone-100 text-zinc-900">
       <Script id="franz-luthier-local-business" type="application/ld+json">
@@ -302,19 +328,49 @@ export default function HomePage() {
           </Link>
 
           <nav className="hidden items-center gap-9 md:flex">
-            <a href="#servicos" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Serviços</a>
-            <a href="#diferenciais" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Diferenciais</a>
-            <a href="#localizacao" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Localização</a>
+            <a
+              href="#servicos"
+              className="relative text-sm font-normal text-zinc-700 transition-colors duration-300 hover:text-zinc-950 active:text-zinc-950 after:absolute after:-bottom-1.5 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-zinc-900 after:transition-all after:duration-300 after:ease-out hover:after:w-full active:after:w-full"
+            >
+              Serviços
+            </a>
+            <a
+              href="#diferenciais"
+              className="relative text-sm font-normal text-zinc-700 transition-colors duration-300 hover:text-zinc-950 active:text-zinc-950 after:absolute after:-bottom-1.5 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-zinc-900 after:transition-all after:duration-300 after:ease-out hover:after:w-full active:after:w-full"
+            >
+              Diferenciais
+            </a>
+            <a
+              href="#localizacao"
+              className="relative text-sm font-normal text-zinc-700 transition-colors duration-300 hover:text-zinc-950 active:text-zinc-950 after:absolute after:-bottom-1.5 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-zinc-900 after:transition-all after:duration-300 after:ease-out hover:after:w-full active:after:w-full"
+            >
+              Localização
+            </a>
           </nav>
 
-          <Button asChild size="sm" variant="outline" className="rounded-full border-stone-300 bg-white px-3 text-zinc-900 hover:bg-stone-100 hover:text-zinc-900 sm:px-5">
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-              <GradientWhatsAppIcon className="h-4 w-4 sm:mr-2" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={handleShareSite}
+              className="rounded-full border-stone-300 bg-white px-3 text-zinc-900 shadow-[0_6px_16px_rgba(41,37,36,0.06)] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:border-stone-400 hover:bg-stone-100 hover:shadow-[0_12px_24px_rgba(41,37,36,0.12)] hover:text-zinc-900 active:translate-y-0 active:scale-[0.98] sm:px-5"
+            >
+              <GradientLucideIcon icon={Share2} className="h-4 w-4 sm:mr-2" />
               <span className="hidden sm:inline">
-                <span className={titleGradientClass}>Falar no WhatsApp</span>
+                <span className={titleGradientClass}>Compartilhar</span>
               </span>
-            </a>
-          </Button>
+            </Button>
+
+            <Button asChild size="sm" variant="outline" className="rounded-full border-stone-300 bg-white px-3 text-zinc-900 shadow-[0_6px_16px_rgba(41,37,36,0.06)] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:border-stone-400 hover:bg-stone-100 hover:shadow-[0_12px_24px_rgba(41,37,36,0.12)] hover:text-zinc-900 active:translate-y-0 active:scale-[0.98] sm:px-5">
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                <GradientWhatsAppIcon className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">
+                  <span className={titleGradientClass}>Falar no WhatsApp</span>
+                </span>
+              </a>
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -340,14 +396,14 @@ export default function HomePage() {
                 </p>
 
                 <div className="mt-7 flex w-full flex-col items-center justify-center gap-2.5 md:mt-11 sm:flex-row sm:gap-4">
-                  <Button asChild size="lg" variant="outline" className="h-11 w-full max-w-[280px] rounded-full border-stone-300 bg-white px-6 text-sm text-zinc-900 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100 hover:text-zinc-900 md:h-12 md:w-auto md:max-w-none md:px-7 md:text-base">
+                  <Button asChild size="lg" variant="outline" className="h-11 w-full max-w-[280px] rounded-full border-stone-300 bg-white px-6 text-sm text-zinc-900 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:border-stone-400 hover:bg-stone-100 hover:shadow-[0_14px_28px_rgba(41,37,36,0.14)] hover:text-zinc-900 active:translate-y-0 active:scale-[0.98] md:h-12 md:w-auto md:max-w-none md:px-7 md:text-base">
                     <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
                       <GradientLucideIcon icon={Instagram} className="mr-2 h-4 w-4" />
                       <span className={titleGradientClass}>Instagram</span>
                     </a>
                   </Button>
 
-                  <Button asChild size="lg" variant="outline" className="h-11 w-full max-w-[280px] rounded-full border-stone-300 bg-white px-6 text-sm text-zinc-900 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100 hover:text-zinc-900 md:h-12 md:w-auto md:max-w-none md:px-7 md:text-base">
+                  <Button asChild size="lg" variant="outline" className="h-11 w-full max-w-[280px] rounded-full border-stone-300 bg-white px-6 text-sm text-zinc-900 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:border-stone-400 hover:bg-stone-100 hover:shadow-[0_14px_28px_rgba(41,37,36,0.14)] hover:text-zinc-900 active:translate-y-0 active:scale-[0.98] md:h-12 md:w-auto md:max-w-none md:px-7 md:text-base">
                     <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
                       <GradientLucideIcon icon={Facebook} className="mr-2 h-4 w-4" />
                       <span className={titleGradientClass}>Facebook</span>
@@ -377,7 +433,7 @@ export default function HomePage() {
                     <li>Melhor sonoridade</li>
                     <li>Mais prazer em tocar</li>
                   </ul>
-                  <Button asChild size="lg" variant="outline" className="mt-8 h-12 rounded-full border-white/70 bg-white text-zinc-900 shadow-[0_10px_20px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100 hover:text-zinc-900">
+                  <Button asChild size="lg" variant="outline" className="mt-8 h-12 rounded-full border-white/70 bg-white text-zinc-900 shadow-[0_10px_20px_rgba(0,0,0,0.18)] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:border-white hover:bg-stone-100 hover:shadow-[0_18px_34px_rgba(0,0,0,0.22)] hover:text-zinc-900 active:translate-y-0 active:scale-[0.98]">
                     <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
                       <GradientLucideIcon icon={Instagram} className="mr-2 h-4 w-4" />
                       <span className={titleGradientClass}>Ver no Instagram</span>
@@ -397,7 +453,7 @@ export default function HomePage() {
                 title="Serviços de luthier profissional"
                 description="Atendimento de luthier com método claro, diagnóstico técnico e execução cuidadosa para garantir resultado consistente."
               />
-              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="mb-10 hidden items-center gap-1 text-sm text-zinc-700 transition-colors hover:text-zinc-950 md:flex">
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="mb-10 hidden items-center gap-1 text-sm text-zinc-700 transition-all duration-300 hover:gap-1.5 hover:text-zinc-950 md:flex">
                 Ver trabalhos
                 <GradientLucideIcon icon={ArrowUpRight} className="h-4 w-4" />
               </a>
@@ -456,14 +512,14 @@ export default function HomePage() {
                   />
 
                   <div className="flex flex-wrap gap-3">
-                    <Button asChild size="lg" variant="outline" className="h-12 rounded-full border-stone-300 bg-white px-8 text-zinc-900 hover:bg-stone-100 hover:text-zinc-900">
+                    <Button asChild size="lg" variant="outline" className="h-12 rounded-full border-stone-300 bg-white px-8 text-zinc-900 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:border-stone-400 hover:bg-stone-100 hover:shadow-[0_14px_28px_rgba(41,37,36,0.14)] hover:text-zinc-900 active:translate-y-0 active:scale-[0.98]">
                       <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
                         <GradientLucideIcon icon={Instagram} className="mr-2 h-4 w-4" />
                         <span className={titleGradientClass}>Abrir Instagram</span>
                       </a>
                     </Button>
 
-                    <Button asChild size="lg" variant="outline" className="h-12 rounded-full border-stone-300 bg-white px-8 text-zinc-900 hover:bg-stone-100 hover:text-zinc-900">
+                    <Button asChild size="lg" variant="outline" className="h-12 rounded-full border-stone-300 bg-white px-8 text-zinc-900 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:border-stone-400 hover:bg-stone-100 hover:shadow-[0_14px_28px_rgba(41,37,36,0.14)] hover:text-zinc-900 active:translate-y-0 active:scale-[0.98]">
                       <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
                         <GradientLucideIcon icon={Facebook} className="mr-2 h-4 w-4" />
                         <span className={titleGradientClass}>Abrir Facebook</span>
@@ -478,7 +534,7 @@ export default function HomePage() {
                       type="button"
                       aria-label="Anterior"
                       onClick={() => scrollCarousel('left')}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 bg-white text-zinc-900 transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100"
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 bg-white text-zinc-900 transition-all duration-500 ease-out hover:-translate-y-0.5 hover:border-stone-400 hover:bg-stone-100 hover:shadow-[0_10px_20px_rgba(41,37,36,0.12)] active:translate-y-0 active:scale-[0.96]"
                     >
                       <GradientLucideIcon icon={ChevronLeft} className="h-4 w-4" />
                     </button>
@@ -486,7 +542,7 @@ export default function HomePage() {
                       type="button"
                       aria-label="Próximo"
                       onClick={() => scrollCarousel('right')}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 bg-white text-zinc-900 transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100"
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 bg-white text-zinc-900 transition-all duration-500 ease-out hover:-translate-y-0.5 hover:border-stone-400 hover:bg-stone-100 hover:shadow-[0_10px_20px_rgba(41,37,36,0.12)] active:translate-y-0 active:scale-[0.96]"
                     >
                       <GradientLucideIcon icon={ChevronRight} className="h-4 w-4" />
                     </button>
@@ -502,10 +558,10 @@ export default function HomePage() {
                         href={item.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group relative h-[340px] min-w-[84%] snap-start overflow-hidden rounded-2xl border border-stone-200 bg-stone-100 sm:min-w-[56%] lg:min-w-[44%]"
+                        className="group relative h-[340px] min-w-[84%] snap-start overflow-hidden rounded-2xl border border-stone-200 bg-stone-100 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:border-stone-300 hover:shadow-[0_18px_34px_rgba(41,37,36,0.16)] active:translate-y-0 active:scale-[0.995] sm:min-w-[56%] lg:min-w-[44%]"
                       >
                         <div className="relative h-full w-full">
-                          <Image src={item.image} alt={item.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                          <Image src={item.image} alt={item.title} fill className="object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
                           <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/75 via-zinc-950/20 to-transparent" />
                         </div>
 
@@ -531,7 +587,7 @@ export default function HomePage() {
               description="Atendimento local de luthier com envio para todo o Brasil."
             />
             <div className="mb-6 -mt-4">
-              <Button asChild size="sm" variant="outline" className="h-10 rounded-full border-stone-300 bg-white px-5 text-zinc-900 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100 hover:text-zinc-900">
+              <Button asChild size="sm" variant="outline" className="h-10 rounded-full border-stone-300 bg-white px-5 text-zinc-900 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:border-stone-400 hover:bg-stone-100 hover:shadow-[0_14px_28px_rgba(41,37,36,0.14)] hover:text-zinc-900 active:translate-y-0 active:scale-[0.98]">
                 <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
                   <GradientLucideIcon icon={MapPin} className="mr-2 h-4 w-4" />
                   <span className={titleGradientClass}>Abrir no Google Maps</span>
@@ -558,7 +614,7 @@ export default function HomePage() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Falar no WhatsApp"
-        className="animate-whatsapp-ring fixed bottom-5 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/30 transition-transform hover:scale-105 md:bottom-6 md:right-6"
+        className="animate-whatsapp-ring fixed bottom-5 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/30 transition-all duration-500 ease-out hover:-translate-y-1 hover:scale-105 active:translate-y-0 active:scale-[0.96] md:bottom-6 md:right-6"
       >
         <WhatsAppIcon className="h-7 w-7 text-white" />
       </a>
