@@ -4,7 +4,6 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.franzluthier.com';
-const socialPreviewImage = `${siteUrl}/logoFranzLuthier.png`;
 
 const inter = Inter({
   variable: "--font-inter",
@@ -66,10 +65,10 @@ export const metadata: Metadata = {
     siteName: "Franz Luthier",
     images: [
       {
-        url: socialPreviewImage,
-        width: 432,
-        height: 432,
-        alt: "Logo Franz Luthier",
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Franz Luthier",
       },
     ],
   },
@@ -77,7 +76,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Franz Luthier | Luthier em São Bento do Sul",
     description: "Regulagem, manutenção e customização de instrumentos com atendimento em São Bento do Sul e envio para todo o Brasil.",
-    images: [socialPreviewImage],
+    images: ["/twitter-image"],
   },
   robots: {
     index: true,
