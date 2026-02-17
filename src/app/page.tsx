@@ -319,7 +319,7 @@ export default function HomePage() {
       </header>
 
       <main className="pt-16">
-        <section className="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden bg-gradient-to-b from-stone-100 via-stone-100 to-stone-200/45 pt-1.5 sm:min-h-0 sm:pt-2">
+        <section className="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden bg-gradient-to-b from-stone-100 via-stone-100 to-stone-200/45 pt-1.5 sm:pt-2">
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <div className="absolute -left-24 top-8 h-56 w-56 rounded-full bg-amber-200/20 blur-3xl" />
             <div className="absolute -right-16 top-20 h-64 w-64 rounded-full bg-stone-300/25 blur-3xl" />

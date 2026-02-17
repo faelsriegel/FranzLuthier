@@ -1,5 +1,7 @@
 import { ImageResponse } from 'next/og';
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://franzluthier.vercel.app');
+
 export const size = {
   width: 1200,
   height: 630,
@@ -23,7 +25,7 @@ export default function TwitterImage() {
           gap: 18,
         }}
       >
-        <img src="/logoFranzLuthier.png" alt="Franz Luthier" width={420} height={420} style={{ objectFit: 'contain' }} />
+        <img src={`${siteUrl}/logoFranzLuthier.png`} alt="Franz Luthier" width={420} height={420} style={{ objectFit: 'contain' }} />
         <div style={{ fontSize: 40, fontWeight: 500, letterSpacing: '-0.02em' }}>Franz Luthier</div>
       </div>
     ),
