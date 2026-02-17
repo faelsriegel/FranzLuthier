@@ -319,20 +319,20 @@ export default function HomePage() {
       </header>
 
       <main className="pt-16">
-        <section className="relative overflow-hidden bg-gradient-to-b from-stone-100 via-stone-100 to-stone-200/45 pt-1.5 sm:pt-2">
+        <section className="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden bg-gradient-to-b from-stone-100 via-stone-100 to-stone-200/45 pt-1.5 sm:min-h-0 sm:pt-2">
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <div className="absolute -left-24 top-8 h-56 w-56 rounded-full bg-amber-200/20 blur-3xl" />
             <div className="absolute -right-16 top-20 h-64 w-64 rounded-full bg-stone-300/25 blur-3xl" />
           </div>
 
-          <div className="container relative z-10 mx-auto px-4 pb-8 pt-2.5 lg:px-6 md:pb-16 md:pt-4">
+          <div className="container relative z-10 mx-auto w-full px-4 pb-8 pt-2.5 lg:px-6 md:pb-16 md:pt-4">
             <div className="mx-auto max-w-5xl py-4 text-center md:py-8 lg:py-10">
               <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
                 <p className="text-[11px] uppercase tracking-[0.34em] text-zinc-500">Franz Luthier</p>
 
                 <h1 className="mx-auto mt-5 max-w-4xl text-[clamp(1.55rem,6vw,4.4rem)] text-pretty font-light leading-[1.05] tracking-[-0.018em] text-zinc-900 md:mt-7">
-                  Onde som, técnica e paixão
-                  <span className="block font-normal italic">{renderTitleWithGradientTail('se encontram.')}</span>
+                  Luthier para seu
+                  <span className="block font-normal italic">{renderTitleWithGradientTail('melhor som.')}</span>
                 </h1>
 
                 <p className="mx-auto mt-4 max-w-2xl px-1 text-[13px] leading-[1.8] text-zinc-600 md:mt-8 md:text-[17px] md:leading-[1.72]">
@@ -354,6 +354,13 @@ export default function HomePage() {
                     </a>
                   </Button>
                 </div>
+
+                <p className="mx-auto mt-7 max-w-3xl text-[13px] leading-[1.85] text-zinc-600 md:mt-9 md:text-[15px] md:leading-[1.85]">
+                  Se você procura um luthier em São Bento do Sul para melhorar tocabilidade, afinação e resposta sonora, este atendimento foi pensado para isso.
+                  O trabalho de luthier começa com diagnóstico técnico, passa por regulagem fina e termina com revisão completa para garantir estabilidade no uso diário.
+                  Cada instrumento recebe atenção individual, seja para manutenção preventiva, reparo corretivo, troca de componentes ou ajuste de performance.
+                  O objetivo é simples: entregar conforto real para tocar, melhor sonoridade e confiança em estúdio, ensaio, palco ou estudo.
+                </p>
               </motion.div>
             </div>
           </div>
@@ -368,7 +375,7 @@ export default function HomePage() {
               <div className="bg-zinc-950/60 p-7 sm:p-8 md:p-16">
                 <div className="max-w-2xl">
                   <h2 className="text-[clamp(1.6rem,4vw,2.6rem)] tracking-tight font-normal text-white [text-wrap:balance]">
-                    Seu instrumento merece o melhor som que ele pode oferecer!
+                    Seu instrumento com padrão de luthier profissional
                   </h2>
                   <p className="mt-5 text-sm leading-relaxed text-white/90">Com uma regulagem profissional, você sente a diferença no primeiro acorde:</p>
                   <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-white marker:text-white/90">
@@ -393,8 +400,8 @@ export default function HomePage() {
             <div className="flex flex-col items-start gap-2 md:flex-row md:items-end md:justify-between md:gap-6">
               <SectionHeader
                 label="Serviços"
-                title="Soluções técnicas com padrão profissional"
-                description="Mesmo padrão visual e de leitura para facilitar a navegação e a compreensão rápida dos serviços."
+                title="Serviços de luthier profissional"
+                description="Atendimento de luthier com método claro, diagnóstico técnico e execução cuidadosa para garantir resultado consistente."
               />
               <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="mb-10 hidden items-center gap-1 text-sm text-zinc-700 transition-colors hover:text-zinc-950 md:flex">
                 Ver trabalhos
@@ -414,6 +421,13 @@ export default function HomePage() {
                 />
               ))}
             </div>
+
+            <p className="mt-8 max-w-5xl text-[14px] leading-[1.85] text-zinc-600 md:mt-10 md:text-[15px]">
+              Um serviço de luthier bem executado não é apenas estética: ele melhora afinação ao longo do braço, estabilidade de oitavas, equilíbrio entre cordas e dinâmica da pegada.
+              Na prática, isso significa menos esforço da mão esquerda, ataques mais definidos e sustain mais controlado.
+              Em instrumentos acústicos e elétricos, o processo de luthier considera clima, calibre de corda, estilo do músico e objetivo sonoro para chegar a um ajuste realmente personalizado.
+              Esse cuidado evita retrabalho e aumenta a vida útil das peças, deixando o instrumento pronto para tocar por mais tempo com segurança.
+            </p>
           </div>
         </section>
 
@@ -421,8 +435,8 @@ export default function HomePage() {
           <div className="container mx-auto px-4 lg:px-6">
             <SectionHeader
               label="Diferenciais"
-              title="Atendimento simples e resultado profissional"
-              description="Serviço com organização, cuidado e foco em um resultado de qualidade."
+              title="Processo de luthier com resultado profissional"
+              description="Fluxo de trabalho de luthier com organização, comunicação clara e foco total em qualidade final."
             />
 
             <div className="grid gap-5 md:grid-cols-3 md:gap-6">
@@ -437,6 +451,13 @@ export default function HomePage() {
                 />
               ))}
             </div>
+
+            <p className="mt-8 max-w-5xl text-[14px] leading-[1.85] text-zinc-600 md:mt-10 md:text-[15px]">
+              O diferencial de um bom luthier está na soma entre experiência de bancada e escuta do que o músico realmente precisa.
+              Nem todo ajuste serve para todo instrumento, por isso cada etapa é validada com critério técnico e percepção sonora.
+              Esse processo inclui inspeção estrutural, análise de trastes, checagem elétrica quando necessário e regulagem final de ação e entonação.
+              Com isso, o instrumento volta mais equilibrado, confortável e previsível, preservando o timbre e melhorando a performance em qualquer contexto de uso.
+            </p>
           </div>
         </section>
 
@@ -447,9 +468,9 @@ export default function HomePage() {
                 <div className="lg:col-span-5">
                   <SectionHeader
                     label="Instagram & Facebook"
-                    title="Fotos de trabalhos publicados"
+                    title="Fotos de trabalhos de luthier"
                     disableGradient
-                    description="Acompanhe os trabalhos publicados e envie mensagem direta para solicitar orçamento."
+                    description="Acompanhe trabalhos de luthier publicados e envie mensagem direta para solicitar orçamento."
                   />
 
                   <div className="flex flex-wrap gap-3">
@@ -524,9 +545,15 @@ export default function HomePage() {
           <div className="container mx-auto px-4 lg:px-6">
             <SectionHeader
               label="Localização"
-              title="São Bento do Sul, SC"
-              description="Atendimento local com envio para todo o Brasil."
+              title="Luthier em São Bento do Sul, SC"
+              description="Atendimento local de luthier com envio para todo o Brasil."
             />
+            <p className="mb-5 max-w-4xl text-[14px] leading-[1.85] text-zinc-600 md:text-[15px]">
+              O ateliê de luthier está em São Bento do Sul, com atendimento para músicos da região e também de outras cidades.
+              Para quem não consegue atendimento presencial, há orientação para envio seguro do instrumento e retorno com embalagem adequada.
+              Isso permite receber um serviço de luthier completo, com o mesmo padrão técnico, mesmo à distância.
+              Se você busca regulagem, manutenção ou melhoria de performance, o contato pode ser feito diretamente pelo WhatsApp ou pelas redes sociais.
+            </p>
             <div className="mb-6 -mt-4">
               <Button asChild size="sm" variant="outline" className="h-10 rounded-full border-stone-300 bg-white px-5 text-zinc-900 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100 hover:text-zinc-900">
                 <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
