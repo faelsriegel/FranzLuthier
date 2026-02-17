@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Script from 'next/script';
-import { useRef } from 'react';
+import { useId, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import { ArrowUpRight, ChevronLeft, ChevronRight, Clock3, Facebook, Instagram, MapPin, ShieldCheck, Wrench } from 'lucide-react';
@@ -132,6 +132,9 @@ const differentials = [
 const cardClass =
   'group rounded-2xl border border-stone-200 bg-white p-7 shadow-[0_1px_0_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(41,37,36,0.1)]';
 
+const titleGradientClass =
+  'inline-block bg-[linear-gradient(110deg,#2A1B14_0%,#6B3F26_35%,#B77A45_68%,#E9C79B_100%)] bg-clip-text text-transparent';
+
 function WhatsAppIcon({ className = 'h-5 w-5' }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
@@ -140,19 +143,79 @@ function WhatsAppIcon({ className = 'h-5 w-5' }: { className?: string }) {
   );
 }
 
+function GradientWhatsAppIcon({ className = 'h-5 w-5' }: { className?: string }) {
+  const gradientId = useId().replace(/:/g, '');
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
+      <defs>
+        <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#2A1B14" />
+          <stop offset="38%" stopColor="#6B3F26" />
+          <stop offset="72%" stopColor="#B77A45" />
+          <stop offset="100%" stopColor="#E9C79B" />
+        </linearGradient>
+      </defs>
+      <path
+        fill={`url(#${gradientId})`}
+        d="M20.52 3.48A11.86 11.86 0 0 0 12.06 0C5.45 0 .07 5.38.07 11.99c0 2.11.55 4.17 1.6 6L0 24l6.18-1.62a11.9 11.9 0 0 0 5.87 1.5h.01c6.61 0 11.99-5.38 11.99-11.99 0-3.2-1.24-6.2-3.53-8.41zm-8.46 18.39h-.01a9.9 9.9 0 0 1-5.03-1.37l-.36-.21-3.67.96.98-3.58-.23-.37a9.88 9.88 0 0 1-1.52-5.28C2.22 6.51 6.56 2.17 12.07 2.17c2.64 0 5.12 1.03 6.98 2.9a9.8 9.8 0 0 1 2.89 6.98c0 5.51-4.34 9.82-9.88 9.82zm5.42-7.37c-.3-.15-1.78-.88-2.06-.98-.28-.1-.49-.15-.69.15-.2.3-.79.98-.97 1.18-.18.2-.36.23-.67.08-.3-.15-1.28-.47-2.43-1.49-.9-.8-1.51-1.79-1.69-2.09-.18-.3-.02-.47.13-.62.14-.14.3-.36.46-.54.15-.18.2-.31.3-.51.1-.2.05-.38-.03-.54-.08-.15-.69-1.66-.95-2.28-.25-.6-.5-.52-.69-.53h-.59c-.2 0-.51.08-.78.38-.27.3-1.03 1-1.03 2.44 0 1.43 1.06 2.82 1.2 3.02.15.2 2.08 3.18 5.03 4.45.7.3 1.25.48 1.68.62.7.22 1.34.19 1.84.12.56-.08 1.78-.73 2.03-1.44.25-.7.25-1.31.17-1.44-.08-.13-.28-.2-.59-.36z"
+      />
+    </svg>
+  );
+}
+
+function GradientLucideIcon({ icon: Icon, className }: { icon: LucideIcon; className?: string }) {
+  const gradientId = useId().replace(/:/g, '');
+
+  return (
+    <Icon className={className} color={`url(#${gradientId})`}>
+      <defs>
+        <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#2A1B14" />
+          <stop offset="38%" stopColor="#6B3F26" />
+          <stop offset="72%" stopColor="#B77A45" />
+          <stop offset="100%" stopColor="#E9C79B" />
+        </linearGradient>
+      </defs>
+    </Icon>
+  );
+}
+
+function renderTitleWithGradientTail(text: string) {
+  const words = text.trim().split(/\s+/);
+
+  if (words.length <= 2) {
+    return <span className={titleGradientClass}>{text}</span>;
+  }
+
+  const initialText = words.slice(0, -2).join(' ');
+  const gradientTail = words.slice(-2).join(' ');
+
+  return (
+    <>
+      {initialText}{' '}
+      <span className={titleGradientClass}>{gradientTail}</span>
+    </>
+  );
+}
+
 function SectionHeader({
   label,
   title,
+  disableGradient = false,
   description,
 }: {
   label: string;
   title: string;
+  disableGradient?: boolean;
   description?: string;
 }) {
   return (
     <div className="mb-8 md:mb-12">
       <p className="text-xs uppercase tracking-[0.28em] text-zinc-500">{label}</p>
-      <h2 className="mt-2.5 text-[clamp(1.4rem,3.8vw,2.45rem)] leading-[1.15] tracking-tight font-normal text-zinc-900 md:mt-3">{title}</h2>
+      <h2 className="mt-2.5 text-[clamp(1.4rem,3.8vw,2.45rem)] leading-[1.15] tracking-tight font-normal md:mt-3">
+        <span className="text-zinc-900">{disableGradient ? title : renderTitleWithGradientTail(title)}</span>
+      </h2>
       {description ? <p className="mt-3 max-w-2xl text-[14px] leading-relaxed text-zinc-600 md:mt-4 md:text-sm">{description}</p> : null}
     </div>
   );
@@ -180,7 +243,7 @@ function PatternCard({
       className={cardClass}
     >
       <div className="flex items-start justify-between gap-3">
-        <Icon className="h-5 w-5 text-zinc-900" />
+        <GradientLucideIcon icon={Icon} className="h-5 w-5" />
         <span className="text-[11px] uppercase tracking-[0.22em] text-zinc-400">0{index + 1}</span>
       </div>
 
@@ -226,15 +289,23 @@ export default function HomePage() {
           </Link>
 
           <nav className="hidden items-center gap-8 md:flex">
-            <a href="#servicos" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Serviços</a>
-            <a href="#diferenciais" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Diferenciais</a>
-            <a href="#localizacao" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Localização</a>
+            <a href="#servicos" className="text-sm font-normal transition-opacity hover:opacity-80">
+              <span className={titleGradientClass}>Serviços</span>
+            </a>
+            <a href="#diferenciais" className="text-sm font-normal transition-opacity hover:opacity-80">
+              <span className={titleGradientClass}>Diferenciais</span>
+            </a>
+            <a href="#localizacao" className="text-sm font-normal transition-opacity hover:opacity-80">
+              <span className={titleGradientClass}>Localização</span>
+            </a>
           </nav>
 
           <Button asChild size="sm" variant="outline" className="rounded-full border-stone-300 bg-white px-3 text-zinc-900 hover:bg-stone-100 hover:text-zinc-900 sm:px-5">
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-              <WhatsAppIcon className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">Falar no WhatsApp</span>
+              <GradientWhatsAppIcon className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">
+                <span className={titleGradientClass}>Falar no WhatsApp</span>
+              </span>
             </a>
           </Button>
         </div>
@@ -249,7 +320,7 @@ export default function HomePage() {
 
                 <h1 className="mx-auto mt-5 max-w-4xl text-[clamp(1.55rem,6vw,4.4rem)] font-light leading-[1.08] tracking-[-0.015em] text-zinc-900 md:mt-7">
                   Onde som, técnica e paixão
-                  <span className="block font-normal italic">se encontram.</span>
+                  <span className="block font-normal italic">{renderTitleWithGradientTail('se encontram.')}</span>
                 </h1>
 
                 <p className="mx-auto mt-4 max-w-3xl px-1 text-[13px] leading-[1.75] text-zinc-600 md:mt-8 md:text-[17px] md:leading-relaxed">
@@ -257,23 +328,29 @@ export default function HomePage() {
                 </p>
 
                 <div className="mt-7 flex flex-wrap items-center justify-center gap-2 md:mt-11 md:gap-3">
-                  <span className="rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] text-zinc-700 md:px-4 md:py-2 md:text-sm">São Bento do Sul</span>
-                  <span className="rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] text-zinc-700 md:px-4 md:py-2 md:text-sm">Envio para todo o Brasil</span>
-                  <span className="rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] text-zinc-700 md:px-4 md:py-2 md:text-sm">Orçamento via DM</span>
+                  <span className="rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] md:px-4 md:py-2 md:text-sm">
+                    <span className={titleGradientClass}>São Bento do Sul</span>
+                  </span>
+                  <span className="rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] md:px-4 md:py-2 md:text-sm">
+                    <span className={titleGradientClass}>Envio para todo o Brasil</span>
+                  </span>
+                  <span className="rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] md:px-4 md:py-2 md:text-sm">
+                    <span className={titleGradientClass}>Orçamento via DM</span>
+                  </span>
                 </div>
 
                 <div className="mt-7 flex w-full flex-col items-center justify-center gap-2.5 md:mt-11 sm:flex-row sm:gap-4">
                   <Button asChild size="lg" variant="outline" className="h-11 w-full max-w-[280px] rounded-full border-stone-300 bg-white px-6 text-sm text-zinc-900 hover:bg-stone-100 hover:text-zinc-900 md:h-12 md:w-auto md:max-w-none md:px-7 md:text-base">
                     <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
-                      <Instagram className="mr-2 h-4 w-4 text-zinc-900" />
-                      Instagram
+                      <GradientLucideIcon icon={Instagram} className="mr-2 h-4 w-4" />
+                      <span className={titleGradientClass}>Instagram</span>
                     </a>
                   </Button>
 
                   <Button asChild size="lg" variant="outline" className="h-11 w-full max-w-[280px] rounded-full border-stone-300 bg-white px-6 text-sm text-zinc-900 hover:bg-stone-100 hover:text-zinc-900 md:h-12 md:w-auto md:max-w-none md:px-7 md:text-base">
                     <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
-                      <Facebook className="mr-2 h-4 w-4 text-zinc-900" />
-                      Facebook
+                      <GradientLucideIcon icon={Facebook} className="mr-2 h-4 w-4" />
+                      <span className={titleGradientClass}>Facebook</span>
                     </a>
                   </Button>
                 </div>
@@ -288,22 +365,21 @@ export default function HomePage() {
               className="relative overflow-hidden rounded-3xl border border-stone-200 bg-cover bg-center bg-scroll md:bg-fixed"
               style={{ backgroundImage: "url('/banner.jpg')" }}
             >
-              <div className="bg-zinc-950/45 p-7 sm:p-8 md:p-16">
+              <div className="bg-zinc-950/60 p-7 sm:p-8 md:p-16">
                 <div className="max-w-2xl">
-                  <p className="text-xs uppercase tracking-[0.28em] text-white/80">Destaque</p>
-                  <h2 className="mt-5 text-[clamp(1.6rem,4vw,2.6rem)] tracking-tight font-normal text-white">
+                  <h2 className="text-[clamp(1.6rem,4vw,2.6rem)] tracking-tight font-normal text-white [text-wrap:balance]">
                     Seu instrumento merece o melhor som que ele pode oferecer!
                   </h2>
-                  <p className="mt-5 text-sm leading-relaxed text-white/85">Com uma regulagem profissional, você sente a diferença no primeiro acorde:</p>
-                  <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-white/90 marker:text-white/85">
+                  <p className="mt-5 text-sm leading-relaxed text-white/90">Com uma regulagem profissional, você sente a diferença no primeiro acorde:</p>
+                  <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-white marker:text-white/90">
                     <li>Mais conforto</li>
                     <li>Melhor sonoridade</li>
                     <li>Mais prazer em tocar</li>
                   </ul>
                   <Button asChild size="lg" variant="outline" className="mt-8 h-12 rounded-full border-white/70 bg-white text-zinc-900 hover:bg-stone-100 hover:text-zinc-900">
                     <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
-                      <Instagram className="mr-2 h-4 w-4 text-zinc-900" />
-                      Ver no Instagram
+                      <GradientLucideIcon icon={Instagram} className="mr-2 h-4 w-4" />
+                      <span className={titleGradientClass}>Ver no Instagram</span>
                     </a>
                   </Button>
                 </div>
@@ -322,7 +398,7 @@ export default function HomePage() {
               />
               <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="mb-10 hidden items-center gap-1 text-sm text-zinc-700 transition-colors hover:text-zinc-950 md:flex">
                 Ver trabalhos
-                <ArrowUpRight className="h-4 w-4 text-zinc-900" />
+                <GradientLucideIcon icon={ArrowUpRight} className="h-4 w-4" />
               </a>
             </div>
 
@@ -371,22 +447,23 @@ export default function HomePage() {
                 <div className="lg:col-span-5">
                   <SectionHeader
                     label="Instagram & Facebook"
-                    title="Fotos e trabalhos publicados"
-                    description="Veja os trabalhos recentes e envie mensagem direta para solicitar orçamento."
+                    title="Fotos de trabalhos publicados"
+                    disableGradient
+                    description="Acompanhe os trabalhos publicados e envie mensagem direta para solicitar orçamento."
                   />
 
                   <div className="flex flex-wrap gap-3">
                     <Button asChild size="lg" variant="outline" className="h-12 rounded-full border-stone-300 bg-white px-8 text-zinc-900 hover:bg-stone-100 hover:text-zinc-900">
                       <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
-                        <Instagram className="mr-2 h-4 w-4 text-zinc-900" />
-                        Abrir Instagram
+                        <GradientLucideIcon icon={Instagram} className="mr-2 h-4 w-4" />
+                        <span className={titleGradientClass}>Abrir Instagram</span>
                       </a>
                     </Button>
 
                     <Button asChild size="lg" variant="outline" className="h-12 rounded-full border-stone-300 bg-white px-8 text-zinc-900 hover:bg-stone-100 hover:text-zinc-900">
                       <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
-                        <Facebook className="mr-2 h-4 w-4 text-zinc-900" />
-                        Abrir Facebook
+                        <GradientLucideIcon icon={Facebook} className="mr-2 h-4 w-4" />
+                        <span className={titleGradientClass}>Abrir Facebook</span>
                       </a>
                     </Button>
                   </div>
@@ -400,7 +477,7 @@ export default function HomePage() {
                       onClick={() => scrollCarousel('left')}
                       className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 bg-white text-zinc-900 transition-colors hover:bg-stone-100"
                     >
-                      <ChevronLeft className="h-4 w-4" />
+                      <GradientLucideIcon icon={ChevronLeft} className="h-4 w-4" />
                     </button>
                     <button
                       type="button"
@@ -408,7 +485,7 @@ export default function HomePage() {
                       onClick={() => scrollCarousel('right')}
                       className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 bg-white text-zinc-900 transition-colors hover:bg-stone-100"
                     >
-                      <ChevronRight className="h-4 w-4" />
+                      <GradientLucideIcon icon={ChevronRight} className="h-4 w-4" />
                     </button>
                   </div>
 
@@ -445,12 +522,16 @@ export default function HomePage() {
 
         <section id="localizacao" className="border-t border-stone-200 bg-stone-100/70 py-16 md:py-24">
           <div className="container mx-auto px-4 lg:px-6">
-            <SectionHeader label="Localização" title="São Bento do Sul, SC" description="Atendimento local com envio para todo o Brasil." />
+            <SectionHeader
+              label="Localização"
+              title="São Bento do Sul, SC"
+              description="Atendimento local com envio para todo o Brasil."
+            />
             <div className="mb-6 -mt-4">
               <Button asChild size="sm" variant="outline" className="h-10 rounded-full border-stone-300 bg-white px-5 text-zinc-900 hover:bg-stone-100 hover:text-zinc-900">
                 <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
-                  <MapPin className="mr-2 h-4 w-4" />
-                  Abrir no Google Maps
+                  <GradientLucideIcon icon={MapPin} className="mr-2 h-4 w-4" />
+                  <span className={titleGradientClass}>Abrir no Google Maps</span>
                 </a>
               </Button>
             </div>
@@ -480,10 +561,24 @@ export default function HomePage() {
       </a>
 
       <footer className="border-t border-stone-200 bg-stone-50 py-12">
-        <div className="container mx-auto flex flex-col items-center justify-between gap-6 px-4 md:flex-row lg:px-6">
-          <Image src="/logo.png" alt="Franz Luthier" width={150} height={40} className="h-auto w-[150px] object-contain" />
+        <div className="container mx-auto grid grid-cols-1 items-center gap-6 px-4 text-center md:grid-cols-3 md:text-left lg:px-6">
+          <div className="flex justify-center md:justify-start">
+            <Image src="/logo.png" alt="Franz Luthier" width={150} height={40} className="h-auto w-[150px] object-contain" />
+          </div>
 
-          <div className="flex items-center gap-6">
+          <p className="text-xs text-zinc-500 md:text-center">
+            Website criado por{' '}
+            <a
+              href="https://www.srcompanytechsolutions.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-700 underline-offset-2 hover:underline"
+            >
+              SRC Tech Solutions LTDA
+            </a>
+          </p>
+
+          <div className="flex items-center justify-center gap-6 md:justify-end">
             <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-zinc-600 transition-colors hover:text-zinc-950">
               Instagram
             </a>
