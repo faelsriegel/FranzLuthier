@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.franzluthier.com';
+const socialPreviewImage = `${siteUrl}/logoFranzLuthier.png`;
 
 const inter = Inter({
   variable: "--font-inter",
@@ -46,11 +47,15 @@ export const metadata: Metadata = {
     address: true,
     email: true,
   },
+  manifest: "/favicon/site.webmanifest",
   icons: {
     icon: [
-      { url: "/logo.png", type: "image/png" },
+      { url: "/favicon/favicon.ico", type: "image/x-icon" },
+      { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
     ],
-    apple: "/logo.png",
+    shortcut: ["/favicon/favicon.ico"],
+    apple: "/favicon/apple-touch-icon.png",
   },
   openGraph: {
     title: "Franz Luthier | Luthier em São Bento do Sul",
@@ -61,9 +66,9 @@ export const metadata: Metadata = {
     siteName: "Franz Luthier",
     images: [
       {
-        url: "/logo.png",
-        width: 512,
-        height: 512,
+        url: socialPreviewImage,
+        width: 432,
+        height: 432,
         alt: "Logo Franz Luthier",
       },
     ],
@@ -72,7 +77,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Franz Luthier | Luthier em São Bento do Sul",
     description: "Regulagem, manutenção e customização de instrumentos com atendimento em São Bento do Sul e envio para todo o Brasil.",
-    images: ["/logo.png"],
+    images: [socialPreviewImage],
   },
   robots: {
     index: true,

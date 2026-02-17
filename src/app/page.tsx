@@ -143,7 +143,7 @@ const differentials = [
 ];
 
 const cardClass =
-  'group rounded-2xl border border-stone-200 bg-white p-7 shadow-[0_1px_0_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(41,37,36,0.1)]';
+  'group rounded-2xl border border-stone-200/90 bg-gradient-to-b from-white to-stone-50/60 p-7 shadow-[0_1px_0_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(41,37,36,0.12)]';
 
 const titleGradientClass =
   'inline-block bg-[linear-gradient(110deg,#2A1B14_0%,#6B3F26_35%,#B77A45_68%,#E9C79B_100%)] bg-clip-text text-transparent';
@@ -224,12 +224,12 @@ function SectionHeader({
   description?: string;
 }) {
   return (
-    <div className="mb-8 md:mb-12">
-      <p className="text-xs uppercase tracking-[0.28em] text-zinc-500">{label}</p>
-      <h2 className="mt-2.5 text-[clamp(1.4rem,3.8vw,2.45rem)] leading-[1.15] tracking-tight font-normal md:mt-3">
+    <div className="mb-9 md:mb-13">
+      <p className="text-xs uppercase tracking-[0.3em] text-zinc-500/90">{label}</p>
+      <h2 className="mt-2.5 text-[clamp(1.4rem,3.8vw,2.45rem)] leading-[1.12] tracking-tight font-normal md:mt-3">
         <span className="text-zinc-900">{disableGradient ? title : renderTitleWithGradientTail(title)}</span>
       </h2>
-      {description ? <p className="mt-3 max-w-2xl text-[14px] leading-relaxed text-zinc-600 md:mt-4 md:text-sm">{description}</p> : null}
+      {description ? <p className="mt-3.5 max-w-2xl text-[14px] leading-[1.75] text-zinc-600 md:mt-4 md:text-[15px]">{description}</p> : null}
     </div>
   );
 }
@@ -260,8 +260,8 @@ function PatternCard({
         <span className="text-[11px] uppercase tracking-[0.22em] text-zinc-400">0{index + 1}</span>
       </div>
 
-      <h3 className="mt-5 text-lg leading-snug font-normal text-zinc-900">{title}</h3>
-      <p className="mt-3 text-sm leading-relaxed text-zinc-600">{description}</p>
+      <h3 className="mt-5.5 text-[1.08rem] leading-[1.3] font-normal text-zinc-900">{title}</h3>
+      <p className="mt-3 text-[14.5px] leading-[1.75] text-zinc-600">{description}</p>
 
       <div className="my-5 h-px w-full bg-stone-200" />
 
@@ -290,18 +290,18 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50 text-zinc-900">
+    <div className="min-h-screen bg-stone-100 text-zinc-900">
       <Script id="franz-luthier-local-business" type="application/ld+json">
         {JSON.stringify(localBusinessJsonLd)}
       </Script>
 
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-stone-200 bg-stone-50/95 backdrop-blur">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-stone-300/70 bg-stone-100/90 backdrop-blur-xl">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-6">
           <Link href="/" className="flex items-center">
             <Image src="/logo.png" alt="Franz Luthier" width={140} height={36} priority className="h-auto w-[128px] object-contain sm:w-[140px]" />
           </Link>
 
-          <nav className="hidden items-center gap-8 md:flex">
+          <nav className="hidden items-center gap-9 md:flex">
             <a href="#servicos" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Serviços</a>
             <a href="#diferenciais" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Diferenciais</a>
             <a href="#localizacao" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Localização</a>
@@ -319,30 +319,35 @@ export default function HomePage() {
       </header>
 
       <main className="pt-16">
-        <section className="pt-1.5 sm:pt-2">
-          <div className="container mx-auto px-4 pb-8 pt-2.5 lg:px-6 md:pb-16 md:pt-4">
+        <section className="relative overflow-hidden bg-gradient-to-b from-stone-100 via-stone-100 to-stone-200/45 pt-1.5 sm:pt-2">
+          <div aria-hidden className="pointer-events-none absolute inset-0">
+            <div className="absolute -left-24 top-8 h-56 w-56 rounded-full bg-amber-200/20 blur-3xl" />
+            <div className="absolute -right-16 top-20 h-64 w-64 rounded-full bg-stone-300/25 blur-3xl" />
+          </div>
+
+          <div className="container relative z-10 mx-auto px-4 pb-8 pt-2.5 lg:px-6 md:pb-16 md:pt-4">
             <div className="mx-auto max-w-5xl py-4 text-center md:py-8 lg:py-10">
               <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
                 <p className="text-[11px] uppercase tracking-[0.34em] text-zinc-500">Franz Luthier</p>
 
-                <h1 className="mx-auto mt-5 max-w-4xl text-[clamp(1.55rem,6vw,4.4rem)] font-light leading-[1.08] tracking-[-0.015em] text-zinc-900 md:mt-7">
+                <h1 className="mx-auto mt-5 max-w-4xl text-[clamp(1.55rem,6vw,4.4rem)] text-pretty font-light leading-[1.05] tracking-[-0.018em] text-zinc-900 md:mt-7">
                   Onde som, técnica e paixão
                   <span className="block font-normal italic">{renderTitleWithGradientTail('se encontram.')}</span>
                 </h1>
 
-                <p className="mx-auto mt-4 max-w-3xl px-1 text-[13px] leading-[1.75] text-zinc-600 md:mt-8 md:text-[17px] md:leading-relaxed">
+                <p className="mx-auto mt-4 max-w-2xl px-1 text-[13px] leading-[1.8] text-zinc-600 md:mt-8 md:text-[17px] md:leading-[1.72]">
                   Luthieria especializada em instrumentos de corda, com regulagens precisas, manutenção refinada e acabamento profissional.
                 </p>
 
                 <div className="mt-7 flex w-full flex-col items-center justify-center gap-2.5 md:mt-11 sm:flex-row sm:gap-4">
-                  <Button asChild size="lg" variant="outline" className="h-11 w-full max-w-[280px] rounded-full border-stone-300 bg-white px-6 text-sm text-zinc-900 hover:bg-stone-100 hover:text-zinc-900 md:h-12 md:w-auto md:max-w-none md:px-7 md:text-base">
+                  <Button asChild size="lg" variant="outline" className="h-11 w-full max-w-[280px] rounded-full border-stone-300 bg-white px-6 text-sm text-zinc-900 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100 hover:text-zinc-900 md:h-12 md:w-auto md:max-w-none md:px-7 md:text-base">
                     <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
                       <GradientLucideIcon icon={Instagram} className="mr-2 h-4 w-4" />
                       <span className={titleGradientClass}>Instagram</span>
                     </a>
                   </Button>
 
-                  <Button asChild size="lg" variant="outline" className="h-11 w-full max-w-[280px] rounded-full border-stone-300 bg-white px-6 text-sm text-zinc-900 hover:bg-stone-100 hover:text-zinc-900 md:h-12 md:w-auto md:max-w-none md:px-7 md:text-base">
+                  <Button asChild size="lg" variant="outline" className="h-11 w-full max-w-[280px] rounded-full border-stone-300 bg-white px-6 text-sm text-zinc-900 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100 hover:text-zinc-900 md:h-12 md:w-auto md:max-w-none md:px-7 md:text-base">
                     <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
                       <GradientLucideIcon icon={Facebook} className="mr-2 h-4 w-4" />
                       <span className={titleGradientClass}>Facebook</span>
@@ -354,10 +359,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="border-t border-stone-200 bg-stone-50 py-16 md:py-24">
+        <section className="border-t border-stone-300/60 bg-stone-100 py-16 md:py-24">
           <div className="container mx-auto px-4 lg:px-6">
             <div
-              className="relative overflow-hidden rounded-3xl border border-stone-200 bg-cover bg-center bg-scroll md:bg-fixed"
+              className="relative overflow-hidden rounded-3xl border border-stone-200/90 bg-cover bg-center bg-scroll shadow-[0_16px_38px_rgba(41,37,36,0.14)] md:bg-fixed"
               style={{ backgroundImage: "url('/banner.jpg')" }}
             >
               <div className="bg-zinc-950/60 p-7 sm:p-8 md:p-16">
@@ -371,7 +376,7 @@ export default function HomePage() {
                     <li>Melhor sonoridade</li>
                     <li>Mais prazer em tocar</li>
                   </ul>
-                  <Button asChild size="lg" variant="outline" className="mt-8 h-12 rounded-full border-white/70 bg-white text-zinc-900 hover:bg-stone-100 hover:text-zinc-900">
+                  <Button asChild size="lg" variant="outline" className="mt-8 h-12 rounded-full border-white/70 bg-white text-zinc-900 shadow-[0_10px_20px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100 hover:text-zinc-900">
                     <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
                       <GradientLucideIcon icon={Instagram} className="mr-2 h-4 w-4" />
                       <span className={titleGradientClass}>Ver no Instagram</span>
@@ -383,7 +388,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="servicos" className="border-t border-stone-200 bg-stone-50 py-16 md:py-24">
+        <section id="servicos" className="border-t border-stone-300/60 bg-stone-100 py-16 md:py-24">
           <div className="container mx-auto px-4 lg:px-6">
             <div className="flex flex-col items-start gap-2 md:flex-row md:items-end md:justify-between md:gap-6">
               <SectionHeader
@@ -412,7 +417,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="diferenciais" className="border-t border-stone-200 bg-stone-100/70 py-16 md:py-24">
+        <section id="diferenciais" className="border-t border-stone-300/60 bg-stone-200/50 py-16 md:py-24">
           <div className="container mx-auto px-4 lg:px-6">
             <SectionHeader
               label="Diferenciais"
@@ -435,9 +440,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="instagram" className="border-t border-stone-200 bg-stone-50 py-16 md:py-24">
+        <section id="instagram" className="border-t border-stone-300/60 bg-stone-100 py-16 md:py-24">
           <div className="container mx-auto px-4 lg:px-6">
-            <div className="wood-grain mx-auto max-w-6xl rounded-3xl border border-stone-200 bg-stone-100 p-6 md:p-12 lg:p-14">
+            <div className="wood-grain mx-auto max-w-6xl rounded-3xl border border-stone-300/70 bg-stone-200/55 p-6 shadow-[0_14px_34px_rgba(41,37,36,0.08)] md:p-12 lg:p-14">
               <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
                 <div className="lg:col-span-5">
                   <SectionHeader
@@ -470,7 +475,7 @@ export default function HomePage() {
                       type="button"
                       aria-label="Anterior"
                       onClick={() => scrollCarousel('left')}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 bg-white text-zinc-900 transition-colors hover:bg-stone-100"
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 bg-white text-zinc-900 transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100"
                     >
                       <GradientLucideIcon icon={ChevronLeft} className="h-4 w-4" />
                     </button>
@@ -478,7 +483,7 @@ export default function HomePage() {
                       type="button"
                       aria-label="Próximo"
                       onClick={() => scrollCarousel('right')}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 bg-white text-zinc-900 transition-colors hover:bg-stone-100"
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 bg-white text-zinc-900 transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100"
                     >
                       <GradientLucideIcon icon={ChevronRight} className="h-4 w-4" />
                     </button>
@@ -515,7 +520,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="localizacao" className="border-t border-stone-200 bg-stone-100/70 py-16 md:py-24">
+        <section id="localizacao" className="border-t border-stone-300/60 bg-stone-200/50 py-16 md:py-24">
           <div className="container mx-auto px-4 lg:px-6">
             <SectionHeader
               label="Localização"
@@ -523,7 +528,7 @@ export default function HomePage() {
               description="Atendimento local com envio para todo o Brasil."
             />
             <div className="mb-6 -mt-4">
-              <Button asChild size="sm" variant="outline" className="h-10 rounded-full border-stone-300 bg-white px-5 text-zinc-900 hover:bg-stone-100 hover:text-zinc-900">
+              <Button asChild size="sm" variant="outline" className="h-10 rounded-full border-stone-300 bg-white px-5 text-zinc-900 shadow-[0_8px_20px_rgba(41,37,36,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-stone-100 hover:text-zinc-900">
                 <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
                   <GradientLucideIcon icon={MapPin} className="mr-2 h-4 w-4" />
                   <span className={titleGradientClass}>Abrir no Google Maps</span>
@@ -555,7 +560,7 @@ export default function HomePage() {
         <WhatsAppIcon className="h-7 w-7 text-white" />
       </a>
 
-      <footer className="border-t border-stone-200 bg-stone-50 py-12">
+      <footer className="border-t border-stone-300/60 bg-stone-100 py-12">
         <div className="container mx-auto grid grid-cols-1 items-center gap-6 px-4 text-center md:grid-cols-3 md:text-left lg:px-6">
           <div className="flex justify-center md:justify-start">
             <Image src="/logo.png" alt="Franz Luthier" width={150} height={40} className="h-auto w-[150px] object-contain" />
@@ -574,13 +579,13 @@ export default function HomePage() {
           </p>
 
           <div className="flex items-center justify-center gap-6 md:justify-end">
-            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-zinc-600 transition-colors hover:text-zinc-950">
+            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="text-[13px] tracking-[0.01em] text-zinc-600 transition-colors hover:text-zinc-950">
               Instagram
             </a>
-            <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-zinc-600 transition-colors hover:text-zinc-950">
+            <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="text-[13px] tracking-[0.01em] text-zinc-600 transition-colors hover:text-zinc-950">
               Facebook
             </a>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-zinc-600 transition-colors hover:text-zinc-950">
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-[13px] tracking-[0.01em] text-zinc-600 transition-colors hover:text-zinc-950">
               WhatsApp
             </a>
           </div>
