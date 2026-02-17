@@ -2,489 +2,440 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import Script from 'next/script';
+import { useRef } from 'react';
 import { motion } from 'framer-motion';
-import {
-  ArrowRight,
-  BookOpen,
-  Guitar,
-  Keyboard,
-  Music,
-  Moon,
-  Play,
-  Sun,
-  Volume2,
-  Waves,
-  Sparkles,
-  Zap,
-} from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import { ArrowUpRight, ChevronLeft, ChevronRight, Clock3, Facebook, Instagram, MapPin, ShieldCheck, Wrench } from 'lucide-react';
 
-import { useTheme } from '@/components/ThemeProvider';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 
-type Instrument = {
-  id: 'acordeao' | 'violao' | 'guitarra';
-  name: string;
-  description: string;
-  image: string;
-  available: boolean;
-  chips: string[];
-};
+const INSTAGRAM_URL = 'https://www.instagram.com/franzluthier/';
+const FACEBOOK_URL = 'https://www.facebook.com/p/Franz-Luthier-61558518996906/';
+const WHATSAPP_NUMBER = '5547992258801';
+const WHATSAPP_MESSAGE = 'Olá, Franz Luthier! Vim pelo site e gostaria de um orçamento.';
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+const MAP_EMBED_URL = 'https://www.google.com/maps?q=Franz+Luthier+-+Estrada+Principal+Fundão,+S/N+-+Mato+Preto,+São+Bento+do+Sul+-+SC,+89285-365&output=embed';
+const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/w6cuwRrEvmwPVqZ38?g_st=iwb';
 
-const instruments: Instrument[] = [
+const SOCIAL_CAROUSEL_ITEMS = [
   {
-    id: 'acordeao',
-    name: 'Acordeão',
-    description: 'Coleção completa com verdulera, diatônico, cromático, piano e bandoneón. Push/pull autêntico.',
-    image: '/acordeon.png',
-    available: true,
-    chips: ['Verdulera', 'Diatônico', 'Cromático', 'Bandoneón'],
+    id: 'ig-1',
+    platform: 'Instagram',
+    title: 'Les Paul - detalhe do acabamento',
+    subtitle: '@franzluthier',
+    image: '/guitar1.jpg',
+    href: INSTAGRAM_URL,
   },
   {
-    id: 'violao',
-    name: 'Violão',
-    description: 'Simulador acústico com tablaturas interativas, harmonia funcional e resposta imediata.',
-    image: '/violao.png',
-    available: false,
-    chips: ['Acordes', 'Dedilhados', 'Tablaturas'],
+    id: 'ig-2',
+    platform: 'Instagram',
+    title: 'Les Paul - visão completa',
+    subtitle: 'Trabalho recente',
+    image: '/guitar2.jpg',
+    href: INSTAGRAM_URL,
   },
   {
-    id: 'guitarra',
-    name: 'Guitarra',
-    description: 'Instrumento elétrico com efeitos, visualização de cordas e modos rítmicos avançados.',
-    image: '/guitarra.png',
-    available: false,
-    chips: ['Clean', 'Drive', 'Power chords'],
+    id: 'fb-1',
+    platform: 'Facebook',
+    title: 'Violão - regulagem e revisão',
+    subtitle: 'Franz Luthier',
+    image: '/guitar3.jpg',
+    href: FACEBOOK_URL,
+  },
+  {
+    id: 'ig-4',
+    platform: 'Instagram',
+    title: 'Baixo elétrico - setup e precisão',
+    subtitle: 'Regulagem fina de instrumento',
+    image: '/guitar6.jpg',
+    href: INSTAGRAM_URL,
+  },
+  {
+    id: 'fb-2',
+    platform: 'Facebook',
+    title: 'Violão clássico - manutenção',
+    subtitle: 'Serviço finalizado',
+    image: '/guitar4.jpg',
+    href: FACEBOOK_URL,
+  },
+  {
+    id: 'ig-3',
+    platform: 'Instagram',
+    title: 'Violino - encordoamento e setup',
+    subtitle: 'Detalhes de bancada',
+    image: '/violino.jpg',
+    href: INSTAGRAM_URL,
   },
 ];
 
-function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === 'dark';
+const localBusinessJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Franz Luthier',
+  image: '/logo.png',
+  url: '/',
+  telephone: '+55 47 99225-8801',
+  areaServed: 'Brasil',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'São Bento do Sul',
+    addressRegion: 'SC',
+    addressCountry: 'BR',
+  },
+  sameAs: [INSTAGRAM_URL, FACEBOOK_URL],
+  description: 'Luthier em São Bento do Sul especializado em regulagem, manutenção e customização de instrumentos de corda.',
+};
 
+const services = [
+  {
+    icon: Wrench,
+    title: 'Regulagem completa',
+    description: 'Ajuste preciso de ação, oitavas e tocabilidade para resposta confortável e sonora equilibrada.',
+    points: ['Ação e oitavas calibradas', 'Conforto e estabilidade ao tocar'],
+  },
+  {
+    icon: Wrench,
+    title: 'Manutenção e reparos',
+    description: 'Correções estruturais e elétricas com acabamento técnico e foco na durabilidade do instrumento.',
+    points: ['Revisão estrutural e elétrica', 'Acabamento limpo e consistente'],
+  },
+  {
+    icon: Wrench,
+    title: 'Customização',
+    description: 'Upgrades sob medida para performance, identidade sonora e melhor experiência de uso.',
+    points: ['Configuração personalizada', 'Melhoria de performance real'],
+  },
+];
+
+const differentials = [
+  {
+    icon: Clock3,
+    title: 'Atendimento dedicado',
+    description: 'Atendimento direto com foco em qualidade e boa experiência.',
+    points: ['Contato rápido', 'Acompanhamento do serviço'],
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Serviço bem feito',
+    description: 'Cuidado no ajuste para deixar o instrumento confortável e pronto para tocar.',
+    points: ['Ajustes com atenção', 'Resultado consistente'],
+  },
+  {
+    icon: MapPin,
+    title: 'Base em São Bento do Sul',
+    description: 'Atendimento na cidade e suporte para clientes de outras regiões.',
+    points: ['Atendimento local', 'Envio para todo o Brasil'],
+  },
+];
+
+const cardClass =
+  'group rounded-2xl border border-stone-200 bg-white p-7 shadow-[0_1px_0_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(41,37,36,0.1)]';
+
+function WhatsAppIcon({ className = 'h-5 w-5' }: { className?: string }) {
   return (
-    <Button
-      type="button"
-      aria-label={isDark ? 'Ativar tema claro' : 'Ativar tema escuro'}
-      variant="ghost"
-      size="icon"
-      onClick={toggleTheme}
-      className="h-9 w-9 rounded-full"
-    >
-      <motion.div initial={false} animate={{ rotate: isDark ? 0 : 180 }} transition={{ duration: 0.25 }}>
-        {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-      </motion.div>
-    </Button>
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M20.52 3.48A11.86 11.86 0 0 0 12.06 0C5.45 0 .07 5.38.07 11.99c0 2.11.55 4.17 1.6 6L0 24l6.18-1.62a11.9 11.9 0 0 0 5.87 1.5h.01c6.61 0 11.99-5.38 11.99-11.99 0-3.2-1.24-6.2-3.53-8.41zm-8.46 18.39h-.01a9.9 9.9 0 0 1-5.03-1.37l-.36-.21-3.67.96.98-3.58-.23-.37a9.88 9.88 0 0 1-1.52-5.28C2.22 6.51 6.56 2.17 12.07 2.17c2.64 0 5.12 1.03 6.98 2.9a9.8 9.8 0 0 1 2.89 6.98c0 5.51-4.34 9.82-9.88 9.82zm5.42-7.37c-.3-.15-1.78-.88-2.06-.98-.28-.1-.49-.15-.69.15-.2.3-.79.98-.97 1.18-.18.2-.36.23-.67.08-.3-.15-1.28-.47-2.43-1.49-.9-.8-1.51-1.79-1.69-2.09-.18-.3-.02-.47.13-.62.14-.14.3-.36.46-.54.15-.18.2-.31.3-.51.1-.2.05-.38-.03-.54-.08-.15-.69-1.66-.95-2.28-.25-.6-.5-.52-.69-.53h-.59c-.2 0-.51.08-.78.38-.27.3-1.03 1-1.03 2.44 0 1.43 1.06 2.82 1.2 3.02.15.2 2.08 3.18 5.03 4.45.7.3 1.25.48 1.68.62.7.22 1.34.19 1.84.12.56-.08 1.78-.73 2.03-1.44.25-.7.25-1.31.17-1.44-.08-.13-.28-.2-.59-.36z" />
+    </svg>
   );
 }
 
-function FloatingElements() {
+function SectionHeader({
+  label,
+  title,
+  description,
+}: {
+  label: string;
+  title: string;
+  description?: string;
+}) {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {/* Theme gradient orbs */}
-      <motion.div
-        className="absolute -left-32 top-1/4 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-amber-600/25 via-orange-500/15 to-transparent dark:from-amber-600/25 dark:via-orange-500/15 light:from-orange-500/25 light:via-amber-500/15 blur-3xl"
-        animate={{ y: [0, 30, 0], opacity: [0.4, 0.6, 0.4] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute -right-32 top-1/2 h-[400px] w-[400px] rounded-full bg-gradient-to-br from-yellow-700/20 via-amber-500/10 to-transparent dark:from-yellow-700/20 dark:via-amber-500/10 light:from-amber-600/20 light:via-orange-400/10 blur-3xl"
-        animate={{ y: [0, -20, 0], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute bottom-1/4 left-1/3 h-[300px] w-[300px] rounded-full bg-gradient-to-br from-orange-600/15 to-amber-400/5 dark:from-orange-600/15 dark:to-amber-400/5 light:from-orange-600/15 light:to-amber-400/5 blur-3xl"
-        animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.35, 0.2] }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      
-      {/* Musical notation lines */}
-      <svg className="absolute inset-0 h-full w-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="staff" width="100" height="80" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="20" x2="100" y2="20" stroke="currentColor" strokeWidth="1" />
-            <line x1="0" y1="30" x2="100" y2="30" stroke="currentColor" strokeWidth="1" />
-            <line x1="0" y1="40" x2="100" y2="40" stroke="currentColor" strokeWidth="1" />
-            <line x1="0" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="1" />
-            <line x1="0" y1="60" x2="100" y2="60" stroke="currentColor" strokeWidth="1" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#staff)" />
-      </svg>
+    <div className="mb-8 md:mb-12">
+      <p className="text-xs uppercase tracking-[0.28em] text-zinc-500">{label}</p>
+      <h2 className="mt-2.5 text-[clamp(1.4rem,3.8vw,2.45rem)] leading-[1.15] tracking-tight font-normal text-zinc-900 md:mt-3">{title}</h2>
+      {description ? <p className="mt-3 max-w-2xl text-[14px] leading-relaxed text-zinc-600 md:mt-4 md:text-sm">{description}</p> : null}
     </div>
   );
 }
 
-function HeroVisual() {
+function PatternCard({
+  icon: Icon,
+  title,
+  description,
+  points,
+  index,
+}: {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  points: string[];
+  index: number;
+}) {
   return (
-    <motion.div 
-      className="relative"
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-    >
-      <motion.div
-        className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-amber-500/25 via-orange-600/15 to-yellow-700/10 dark:from-amber-500/25 dark:via-orange-600/15 dark:to-yellow-700/10 light:from-orange-400/25 light:via-amber-500/15 light:to-sky-600/10 blur-2xl"
-        animate={{ opacity: [0.5, 0.7, 0.5] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      
-      <Link href="/acordeao" className="block">
-        <div className="group relative overflow-hidden rounded-2xl border border-amber-500/20 dark:border-amber-500/20 light:border-orange-500/20 bg-gradient-to-br from-card/90 via-card/80 to-amber-950/30 dark:to-amber-950/30 light:to-orange-50/30 backdrop-blur-xl shadow-2xl shadow-amber-900/20 dark:shadow-amber-900/20 light:shadow-orange-500/10 cursor-pointer transition-all duration-300 hover:border-amber-500/40 dark:hover:border-amber-500/40 light:hover:border-orange-500/40">
-          <div className="relative aspect-[4/3] overflow-hidden">
-            <Image
-              src="/hero.png"
-              alt="Acordeão virtual"
-              fill
-              priority
-              className="object-cover transition-transform duration-700 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-          </div>
-        
-          <div className="absolute bottom-0 left-0 right-0 p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/30 to-orange-600/20 dark:from-amber-500/30 dark:to-orange-600/20 light:from-orange-500/30 light:to-amber-600/20 shadow-lg shadow-amber-500/10 dark:shadow-amber-500/10 light:shadow-orange-500/10 backdrop-blur">
-                  <Music className="h-6 w-6 text-amber-400 dark:text-amber-400 light:text-orange-600" />
-              </div>
-              <div>
-                <p className="bg-gradient-to-r from-amber-200 to-orange-200 dark:from-amber-200 dark:to-orange-200 light:from-orange-600 light:to-amber-600 bg-clip-text font-semibold text-transparent">Acordeão Virtual</p>
-                <p className="mt-0.5 text-xs text-muted-foreground">5 modelos disponíveis</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-2">
-              <motion.div
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/20 dark:bg-amber-500/20 light:bg-orange-500/20 backdrop-blur"
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <Volume2 className="h-4 w-4 text-amber-400 dark:text-amber-400 light:text-orange-600" />
-              </motion.div>
-              <motion.div
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/20 dark:bg-amber-500/20 light:bg-orange-500/20 backdrop-blur"
-                animate={{ scale: [1, 1.15, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-              >
-                <Waves className="h-4 w-4 text-amber-400 dark:text-amber-400 light:text-orange-600" />
-              </motion.div>
-            </div>
-          </div>
-        </div>
-        </div>
-      </Link>
-    </motion.div>
-  );
-}
-
-function InstrumentCard({ instrument, index }: { instrument: Instrument; index: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
+    <motion.article
+      initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
+      viewport={{ once: true, margin: '-90px' }}
+      transition={{ duration: 0.35, delay: index * 0.08 }}
+      className={cardClass}
     >
-      <Card className="group relative h-full overflow-hidden border-amber-500/20 dark:border-amber-500/20 light:border-orange-500/20 bg-gradient-to-br from-card via-card/95 to-amber-950/20 dark:to-amber-950/20 light:to-orange-50/20 transition-all duration-500 hover:border-amber-500/40 dark:hover:border-amber-500/40 light:hover:border-orange-500/40 hover:shadow-2xl hover:shadow-amber-600/20 dark:hover:shadow-amber-600/20 light:hover:shadow-orange-500/20">
-      <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-orange-600/5 dark:from-amber-500/5 dark:to-orange-600/5 light:from-orange-500/5 light:to-amber-600/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-      <CardContent className="relative p-0 flex flex-col h-full">
-        <div className="relative h-52 overflow-hidden flex-shrink-0">
-          <Image
-            src={instrument.image}
-            alt={instrument.name}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent dark:from-card light:from-card/60" />
-        </div>
-        
-        <div className="p-6 flex flex-col flex-grow">
-          <h3 className="font-display bg-gradient-to-r from-amber-200 via-orange-200 to-amber-300 dark:from-amber-200 dark:via-orange-200 dark:to-amber-300 light:from-orange-600 light:via-amber-600 light:to-orange-700 bg-clip-text text-xl tracking-tight text-transparent">{instrument.name}</h3>
-          <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground/90 flex-grow">{instrument.description}</p>
-          
-          <div className="mt-4 flex flex-wrap gap-1.5">
-            {instrument.chips.map((chip) => (
-              <span key={chip} className="rounded-full border border-amber-500/15 dark:border-amber-500/15 light:border-orange-500/15 bg-amber-500/5 dark:bg-amber-500/5 light:bg-orange-500/5 px-2 py-0.5 text-[10px] font-medium text-amber-300/70 dark:text-amber-300/70 light:text-orange-600/70">
-                {chip}
-              </span>
-            ))}
-          </div>
-          
-          <div className="mt-5">
-            {instrument.available ? (
-              <Link href={`/${instrument.id}`}>
-                <Button size="sm" className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-500 dark:from-amber-500 dark:to-orange-500 light:from-orange-500 light:to-amber-500 text-white font-medium hover:opacity-90 transition-opacity">
-                  Acessar
-                </Button>
-              </Link>
-            ) : (
-              <Button size="sm" disabled className="w-full rounded-full bg-muted/50 text-muted-foreground cursor-not-allowed">
-                Em desenvolvimento
-              </Button>
-            )}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-    </motion.div>
-  );
-}
+      <div className="flex items-start justify-between gap-3">
+        <Icon className="h-5 w-5 text-zinc-900" />
+        <span className="text-[11px] uppercase tracking-[0.22em] text-zinc-400">0{index + 1}</span>
+      </div>
 
-function StatCard({ label, value, description }: { label: string; value: string; description: string }) {
-  return (
-    <div className="group text-center">
-      <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-amber-400/70">{label}</p>
-      <p className="font-display mt-3 bg-gradient-to-br from-amber-300 via-orange-400 to-amber-500 bg-clip-text text-4xl tracking-tight text-transparent drop-shadow-sm">{value}</p>
-      <p className="mt-2 text-xs font-medium text-muted-foreground/80">{description}</p>
-    </div>
+      <h3 className="mt-5 text-lg leading-snug font-normal text-zinc-900">{title}</h3>
+      <p className="mt-3 text-sm leading-relaxed text-zinc-600">{description}</p>
+
+      <div className="my-5 h-px w-full bg-stone-200" />
+
+      <ul className="space-y-2 text-sm text-zinc-700">
+        {points.map((point) => (
+          <li key={point} className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-zinc-900" />
+            <span>{point}</span>
+          </li>
+        ))}
+      </ul>
+    </motion.article>
   );
 }
 
 export default function HomePage() {
+  const socialCarouselRef = useRef<HTMLDivElement>(null);
+
+  const scrollCarousel = (direction: 'left' | 'right') => {
+    if (!socialCarouselRef.current) return;
+    const amount = Math.round(socialCarouselRef.current.clientWidth * 0.9);
+    socialCarouselRef.current.scrollBy({
+      left: direction === 'left' ? -amount : amount,
+      behavior: 'smooth',
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-amber-500/10 dark:border-amber-500/10 light:border-orange-500/10 bg-background/80 backdrop-blur-xl">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <div className="min-h-screen bg-stone-50 text-zinc-900">
+      <Script id="franz-luthier-local-business" type="application/ld+json">
+        {JSON.stringify(localBusinessJsonLd)}
+      </Script>
+
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-stone-200 bg-stone-50/95 backdrop-blur">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-6">
           <Link href="/" className="flex items-center">
-            <span className="font-script text-4xl font-semibold text-amber-500 dark:text-amber-500 light:text-orange-600">Tabs</span>
+            <Image src="/logo.png" alt="Franz Luthier" width={140} height={36} priority className="h-auto w-[128px] object-contain sm:w-[140px]" />
           </Link>
 
-          <nav className="hidden items-center gap-10 md:flex">
-            <Link href="#instrumentos" className="text-sm font-medium text-muted-foreground transition-colors hover:text-amber-400 dark:hover:text-amber-400 light:hover:text-orange-600">
-              Instrumentos
-            </Link>
-            <Link href="#tecnologia" className="text-sm font-medium text-muted-foreground transition-colors hover:text-amber-400 dark:hover:text-amber-400 light:hover:text-orange-600">
-              Tecnologia
-            </Link>
-            <Link href="#roadmap" className="text-sm font-medium text-muted-foreground transition-colors hover:text-amber-400 dark:hover:text-amber-400 light:hover:text-orange-600">
-              Roadmap
-            </Link>
+          <nav className="hidden items-center gap-8 md:flex">
+            <a href="#servicos" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Serviços</a>
+            <a href="#diferenciais" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Diferenciais</a>
+            <a href="#localizacao" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Localização</a>
           </nav>
 
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            <Link href="/acordeao">
-              <Button size="sm" className="group hidden items-center gap-2.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 dark:from-amber-500 dark:to-orange-600 light:from-orange-500 light:to-amber-600 px-5 font-medium text-white shadow-lg shadow-amber-500/25 dark:shadow-amber-500/25 light:shadow-orange-500/25 transition-all hover:shadow-xl hover:shadow-amber-500/30 dark:hover:shadow-amber-500/30 light:hover:shadow-orange-500/30 sm:flex">
-                <span className="flex h-4 items-end gap-0.5">
-                  <span className="w-1 animate-[equalize_0.8s_ease-in-out_infinite] rounded-full bg-white" style={{ height: '100%' }} />
-                  <span className="w-1 animate-[equalize_0.6s_ease-in-out_infinite_0.2s] rounded-full bg-white" style={{ height: '60%' }} />
-                  <span className="w-1 animate-[equalize_0.7s_ease-in-out_infinite_0.4s] rounded-full bg-white" style={{ height: '80%' }} />
-                </span>
-                Explorar
-              </Button>
-            </Link>
-          </div>
+          <Button asChild size="sm" variant="outline" className="rounded-full border-stone-300 bg-white px-3 text-zinc-900 hover:bg-stone-100 hover:text-zinc-900 sm:px-5">
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+              <WhatsAppIcon className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Falar no WhatsApp</span>
+            </a>
+          </Button>
         </div>
       </header>
 
-      <main>
-        {/* Hero */}
-        <section className="relative min-h-[90vh] pt-14">
-          <FloatingElements />
-          
-          <div className="container mx-auto px-4 py-20 md:py-28">
-            <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-              >
-                <p className="font-script text-2xl text-amber-500 dark:text-amber-500 light:text-amber-600">
-                  Plataforma Musical Interativa
-                </p>
+      <main className="pt-16">
+        <section className="pt-1.5 sm:pt-2">
+          <div className="container mx-auto px-4 pb-8 pt-2.5 lg:px-6 md:pb-16 md:pt-4">
+            <div className="mx-auto max-w-5xl py-4 text-center md:py-8 lg:py-10">
+              <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
+                <p className="text-[11px] uppercase tracking-[0.34em] text-zinc-500">Franz Luthier</p>
 
-                <h1 className="font-display mt-6 text-[clamp(1.75rem,4vw,2.75rem)] leading-[1.2] tracking-tight">
-                  Aprenda e experimente <span className="bg-gradient-to-r from-amber-400 via-orange-500 to-amber-600 dark:from-amber-400 dark:via-orange-500 dark:to-amber-600 light:from-orange-500 light:via-amber-500 light:to-orange-600 bg-clip-text text-transparent">instrumentos musicais</span>
+                <h1 className="mx-auto mt-5 max-w-4xl text-[clamp(1.55rem,6vw,4.4rem)] font-light leading-[1.08] tracking-[-0.015em] text-zinc-900 md:mt-7">
+                  Onde som, técnica e paixão
+                  <span className="block font-normal italic">se encontram.</span>
                 </h1>
 
-                <p className="mt-6 max-w-lg text-[16px] leading-[1.7] text-muted-foreground">
-                  Plataforma central para ensino e experimentação musical interativa, com biblioteca completa de acordeões e demais instrumentos musicais virtuais, suporte a tablaturas interativas, interfaces responsivas e arquitetura modular.
+                <p className="mx-auto mt-4 max-w-3xl px-1 text-[13px] leading-[1.75] text-zinc-600 md:mt-8 md:text-[17px] md:leading-relaxed">
+                  Luthieria especializada em instrumentos de corda, com regulagens precisas, manutenção refinada e acabamento profissional.
                 </p>
 
-                <div className="mt-12 flex flex-col gap-4 sm:flex-row">
-                  <Link href="/acordeao">
-                    <Button size="lg" className="group h-14 w-full items-center gap-3 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 dark:from-amber-500 dark:via-orange-500 dark:to-amber-600 light:from-orange-500 light:via-amber-500 light:to-orange-600 px-8 text-base font-semibold text-white shadow-xl shadow-amber-500/30 dark:shadow-amber-500/30 light:shadow-orange-500/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/40 dark:hover:shadow-amber-500/40 light:hover:shadow-orange-500/40 sm:w-auto">
-                      <span className="flex h-6 items-end gap-0.5">
-                        <span className="w-1 animate-[equalize_0.8s_ease-in-out_infinite] rounded-full bg-white" style={{ height: '100%' }} />
-                        <span className="w-1 animate-[equalize_0.6s_ease-in-out_infinite_0.2s] rounded-full bg-white" style={{ height: '60%' }} />
-                        <span className="w-1 animate-[equalize_0.7s_ease-in-out_infinite_0.4s] rounded-full bg-white" style={{ height: '80%' }} />
-                        <span className="w-1 animate-[equalize_0.5s_ease-in-out_infinite_0.1s] rounded-full bg-white" style={{ height: '40%' }} />
-                      </span>
-                      Experimentar agora
-                    </Button>
-                  </Link>
-                  <Link href="#tecnologia">
-                    <Button size="lg" variant="outline" className="h-14 w-full rounded-full border-amber-500/30 bg-amber-500/5 text-amber-200 dark:border-amber-500/30 dark:bg-amber-500/5 dark:text-amber-200 light:border-orange-500/30 light:bg-orange-500/5 light:text-orange-700 px-10 text-base font-medium transition-all duration-300 hover:border-amber-500/50 hover:bg-amber-500/10 dark:hover:border-amber-500/50 dark:hover:bg-amber-500/10 light:hover:border-orange-500/50 light:hover:bg-orange-500/10 sm:w-auto">
-                      Ver tecnologia
-                      <ArrowRight className="ml-2.5 h-5 w-5" />
-                    </Button>
-                  </Link>
+                <div className="mt-7 flex flex-wrap items-center justify-center gap-2 md:mt-11 md:gap-3">
+                  <span className="rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] text-zinc-700 md:px-4 md:py-2 md:text-sm">São Bento do Sul</span>
+                  <span className="rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] text-zinc-700 md:px-4 md:py-2 md:text-sm">Envio para todo o Brasil</span>
+                  <span className="rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] text-zinc-700 md:px-4 md:py-2 md:text-sm">Orçamento via DM</span>
                 </div>
-              </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                <HeroVisual />
+                <div className="mt-7 flex w-full flex-col items-center justify-center gap-2.5 md:mt-11 sm:flex-row sm:gap-4">
+                  <Button asChild size="lg" variant="outline" className="h-11 w-full max-w-[280px] rounded-full border-stone-300 bg-white px-6 text-sm text-zinc-900 hover:bg-stone-100 hover:text-zinc-900 md:h-12 md:w-auto md:max-w-none md:px-7 md:text-base">
+                    <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+                      <Instagram className="mr-2 h-4 w-4 text-zinc-900" />
+                      Instagram
+                    </a>
+                  </Button>
+
+                  <Button asChild size="lg" variant="outline" className="h-11 w-full max-w-[280px] rounded-full border-stone-300 bg-white px-6 text-sm text-zinc-900 hover:bg-stone-100 hover:text-zinc-900 md:h-12 md:w-auto md:max-w-none md:px-7 md:text-base">
+                    <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
+                      <Facebook className="mr-2 h-4 w-4 text-zinc-900" />
+                      Facebook
+                    </a>
+                  </Button>
+                </div>
               </motion.div>
             </div>
           </div>
         </section>
 
-        {/* Instruments */}
-        <section id="instrumentos" className="relative border-t border-amber-500/10 dark:border-amber-500/10 light:border-orange-500/10 py-24 md:py-32">
-          <div className="absolute inset-0 bg-gradient-to-b from-amber-950/5 via-transparent to-amber-950/5 dark:from-amber-950/5 dark:to-amber-950/5 light:from-orange-50/30 light:to-orange-50/30" />
-          <div className="container relative mx-auto px-4">
-            <div className="mx-auto max-w-2xl text-center">
-              <p className="font-script text-2xl text-amber-500 dark:text-amber-500 light:text-amber-600">Biblioteca</p>
-              <h2 className="font-display mt-5 bg-gradient-to-br from-foreground via-foreground to-amber-200/80 dark:to-amber-200/80 light:to-orange-600/80 bg-clip-text text-[clamp(2rem,4vw,3rem)] tracking-tight text-transparent">
-                Instrumentos com a mesma engenharia
-              </h2>
-              <p className="mt-5 text-[17px] leading-relaxed text-muted-foreground">
-                Todos os módulos compartilham o mesmo core de áudio, sistema de tabs e telemetria em tempo real.
-              </p>
+        <section className="border-t border-stone-200 bg-stone-50 py-16 md:py-24">
+          <div className="container mx-auto px-4 lg:px-6">
+            <div
+              className="relative overflow-hidden rounded-3xl border border-stone-200 bg-cover bg-center bg-scroll md:bg-fixed"
+              style={{ backgroundImage: "url('/banner.jpg')" }}
+            >
+              <div className="bg-zinc-950/45 p-7 sm:p-8 md:p-16">
+                <div className="max-w-2xl">
+                  <p className="text-xs uppercase tracking-[0.28em] text-white/80">Destaque</p>
+                  <h2 className="mt-5 text-[clamp(1.6rem,4vw,2.6rem)] tracking-tight font-normal text-white">
+                    Seu instrumento merece o melhor som que ele pode oferecer!
+                  </h2>
+                  <p className="mt-5 text-sm leading-relaxed text-white/85">Com uma regulagem profissional, você sente a diferença no primeiro acorde:</p>
+                  <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-white/90 marker:text-white/85">
+                    <li>Mais conforto</li>
+                    <li>Melhor sonoridade</li>
+                    <li>Mais prazer em tocar</li>
+                  </ul>
+                  <Button asChild size="lg" variant="outline" className="mt-8 h-12 rounded-full border-white/70 bg-white text-zinc-900 hover:bg-stone-100 hover:text-zinc-900">
+                    <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+                      <Instagram className="mr-2 h-4 w-4 text-zinc-900" />
+                      Ver no Instagram
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="servicos" className="border-t border-stone-200 bg-stone-50 py-16 md:py-24">
+          <div className="container mx-auto px-4 lg:px-6">
+            <div className="flex flex-col items-start gap-2 md:flex-row md:items-end md:justify-between md:gap-6">
+              <SectionHeader
+                label="Serviços"
+                title="Soluções técnicas com padrão profissional"
+                description="Mesmo padrão visual e de leitura para facilitar a navegação e a compreensão rápida dos serviços."
+              />
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="mb-10 hidden items-center gap-1 text-sm text-zinc-700 transition-colors hover:text-zinc-950 md:flex">
+                Ver trabalhos
+                <ArrowUpRight className="h-4 w-4 text-zinc-900" />
+              </a>
             </div>
 
-            <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {instruments.map((instrument, index) => (
-                <InstrumentCard key={instrument.id} instrument={instrument} index={index} />
+            <div className="grid gap-5 md:grid-cols-3 md:gap-6">
+              {services.map((service, index) => (
+                <PatternCard
+                  key={service.title}
+                  icon={service.icon}
+                  title={service.title}
+                  description={service.description}
+                  points={service.points}
+                  index={index}
+                />
               ))}
             </div>
           </div>
         </section>
 
-        {/* Technology */}
-        <section id="tecnologia" className="relative border-t border-amber-500/10 dark:border-amber-500/10 light:border-orange-500/10 bg-gradient-to-b from-amber-950/10 via-background to-amber-950/5 dark:from-amber-950/10 dark:to-amber-950/5 light:from-orange-50/50 light:to-orange-50/30 py-24 md:py-32">
-          <div className="container mx-auto px-4">
-            <div className="mx-auto max-w-2xl text-center">
-              <p className="font-script text-2xl text-amber-500 dark:text-amber-500 light:text-amber-600">Arquitetura</p>
-              <h2 className="font-display mt-5 bg-gradient-to-br from-foreground via-foreground to-amber-200/80 dark:to-amber-200/80 light:to-orange-600/80 bg-clip-text text-[clamp(2rem,4vw,3rem)] tracking-tight text-transparent">
-                Construído para escalar
-              </h2>
-              <p className="mt-5 text-[17px] leading-relaxed text-muted-foreground">
-                Três camadas desacopladas: experiência, áudio/inputs e sincronização de tabs.
-              </p>
-            </div>
+        <section id="diferenciais" className="border-t border-stone-200 bg-stone-100/70 py-16 md:py-24">
+          <div className="container mx-auto px-4 lg:px-6">
+            <SectionHeader
+              label="Diferenciais"
+              title="Atendimento simples e resultado profissional"
+              description="Serviço com organização, cuidado e foco em um resultado de qualidade."
+            />
 
-            <div className="mt-14 grid gap-6 lg:grid-cols-3">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: 0, ease: 'easeOut' }}
-              >
-                <Card className="group relative overflow-hidden border-amber-500/20 dark:border-amber-500/20 light:border-orange-500/20 bg-gradient-to-br from-card via-card/95 to-amber-950/20 dark:to-amber-950/20 light:to-orange-50/20 transition-all duration-500 hover:border-amber-500/40 dark:hover:border-amber-500/40 light:hover:border-orange-500/40 hover:shadow-xl hover:shadow-amber-600/10 dark:hover:shadow-amber-600/10 light:hover:shadow-orange-500/10">
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-orange-600/5 dark:from-amber-500/5 dark:to-orange-600/5 light:from-orange-500/5 light:to-amber-600/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <CardContent className="relative p-6">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-600/20 dark:from-amber-500/20 dark:to-orange-600/20 light:from-orange-500/20 light:to-amber-600/20 shadow-lg shadow-amber-500/10 dark:shadow-amber-500/10 light:shadow-orange-500/10">
-                      <Sparkles className="h-6 w-6 text-amber-400 dark:text-amber-400 light:text-orange-600" />
-                    </div>
-                    <h3 className="mt-5 bg-gradient-to-r from-amber-200 to-orange-200 dark:from-amber-200 dark:to-orange-200 light:from-orange-600 light:to-amber-600 bg-clip-text text-lg font-semibold text-transparent">Camada de Experiência</h3>
-                    <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground/90">
-                      <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-amber-500/60 dark:bg-amber-500/60 light:bg-orange-500/60" />Landing + dashboard com SSR</li>
-                      <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-amber-500/60 dark:bg-amber-500/60 light:bg-orange-500/60" />Tema claro/escuro dinâmico</li>
-                      <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-amber-500/60 dark:bg-amber-500/60 light:bg-orange-500/60" />Biblioteca e roadmap centralizados</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
-              >
-                <Card className="group relative overflow-hidden border-amber-500/20 dark:border-amber-500/20 light:border-orange-500/20 bg-gradient-to-br from-card via-card/95 to-amber-950/20 dark:to-amber-950/20 light:to-orange-50/20 transition-all duration-500 hover:border-amber-500/40 dark:hover:border-amber-500/40 light:hover:border-orange-500/40 hover:shadow-xl hover:shadow-amber-600/10 dark:hover:shadow-amber-600/10 light:hover:shadow-orange-500/10">
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-orange-600/5 dark:from-amber-500/5 dark:to-orange-600/5 light:from-orange-500/5 light:to-amber-600/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <CardContent className="relative p-6">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-600/20 dark:from-amber-500/20 dark:to-orange-600/20 light:from-orange-500/20 light:to-amber-600/20 shadow-lg shadow-amber-500/10 dark:shadow-amber-500/10 light:shadow-orange-500/10">
-                      <Zap className="h-6 w-6 text-amber-400 dark:text-amber-400 light:text-orange-600" />
-                    </div>
-                    <h3 className="mt-5 bg-gradient-to-r from-amber-200 to-orange-200 dark:from-amber-200 dark:to-orange-200 light:from-orange-600 light:to-amber-600 bg-clip-text text-lg font-semibold text-transparent">Engine de Áudio</h3>
-                    <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground/90">
-                      <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-amber-500/60 dark:bg-amber-500/60 light:bg-orange-500/60" />Web Audio com workers dedicados</li>
-                      <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-amber-500/60 dark:bg-amber-500/60 light:bg-orange-500/60" />Mapeamento teclado, mouse, touch, MIDI</li>
-                      <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-amber-500/60 dark:bg-amber-500/60 light:bg-orange-500/60" />Automação push/pull e efeitos</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
-              >
-                <Card className="group relative overflow-hidden border-amber-500/20 dark:border-amber-500/20 light:border-orange-500/20 bg-gradient-to-br from-card via-card/95 to-amber-950/20 dark:to-amber-950/20 light:to-orange-50/20 transition-all duration-500 hover:border-amber-500/40 dark:hover:border-amber-500/40 light:hover:border-orange-500/40 hover:shadow-xl hover:shadow-amber-600/10 dark:hover:shadow-amber-600/10 light:hover:shadow-orange-500/10">
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-orange-600/5 dark:from-amber-500/5 dark:to-orange-600/5 light:from-orange-500/5 light:to-amber-600/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <CardContent className="relative p-6">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-600/20 dark:from-amber-500/20 dark:to-orange-600/20 light:from-orange-500/20 light:to-amber-600/20 shadow-lg shadow-amber-500/10 dark:shadow-amber-500/10 light:shadow-orange-500/10">
-                      <BookOpen className="h-6 w-6 text-amber-400 dark:text-amber-400 light:text-orange-600" />
-                    </div>
-                    <h3 className="mt-5 bg-gradient-to-r from-amber-200 to-orange-200 dark:from-amber-200 dark:to-orange-200 light:from-orange-600 light:to-amber-600 bg-clip-text text-lg font-semibold text-transparent">Tabs e Telemetria</h3>
-                    <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground/90">
-                      <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-amber-500/60 dark:bg-amber-500/60 light:bg-orange-500/60" />Renderer nota a nota sincronizado</li>
-                      <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-amber-500/60 dark:bg-amber-500/60 light:bg-orange-500/60" />Analytics de precisão e dinâmica</li>
-                      <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-amber-500/60 dark:bg-amber-500/60 light:bg-orange-500/60" />Preparado para modo gamificado</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </motion.div>
+            <div className="grid gap-5 md:grid-cols-3 md:gap-6">
+              {differentials.map((item, index) => (
+                <PatternCard
+                  key={item.title}
+                  icon={item.icon}
+                  title={item.title}
+                  description={item.description}
+                  points={item.points}
+                  index={index}
+                />
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Roadmap */}
-        <section id="roadmap" className="border-t border-amber-500/10 dark:border-amber-500/10 light:border-orange-500/10 py-24 md:py-32">
-          <div className="container mx-auto px-4">
-            <div className="mx-auto max-w-2xl text-center">
-              <p className="font-script text-2xl text-amber-500 dark:text-amber-500 light:text-amber-600">Roadmap</p>
-              <h2 className="font-display mt-5 bg-gradient-to-br from-foreground via-foreground to-amber-200/80 dark:to-amber-200/80 light:to-orange-600/80 bg-clip-text text-[clamp(2rem,4vw,3rem)] tracking-tight text-transparent">
-                O que vem por aí
-              </h2>
-            </div>
+        <section id="instagram" className="border-t border-stone-200 bg-stone-50 py-16 md:py-24">
+          <div className="container mx-auto px-4 lg:px-6">
+            <div className="wood-grain mx-auto max-w-6xl rounded-3xl border border-stone-200 bg-stone-100 p-6 md:p-12 lg:p-14">
+              <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
+                <div className="lg:col-span-5">
+                  <SectionHeader
+                    label="Instagram & Facebook"
+                    title="Fotos e trabalhos publicados"
+                    description="Veja os trabalhos recentes e envie mensagem direta para solicitar orçamento."
+                  />
 
-            <div className="mx-auto mt-14 max-w-3xl">
-              <div className="space-y-6">
-                <div className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-amber-500 to-orange-600 dark:from-amber-500 dark:to-orange-600 light:from-orange-500 light:to-amber-600 text-sm font-bold text-white shadow-lg shadow-amber-500/30 dark:shadow-amber-500/30 light:shadow-orange-500/30">v1</div>
-                    <div className="mt-2 h-full w-px bg-gradient-to-b from-amber-500/50 to-amber-500/10 dark:from-amber-500/50 dark:to-amber-500/10 light:from-orange-500/50 light:to-orange-500/10" />
-                  </div>
-                  <div className="pb-8">
-                    <p className="bg-gradient-to-r from-amber-200 to-orange-200 dark:from-amber-200 dark:to-orange-200 light:from-orange-600 light:to-amber-600 bg-clip-text font-semibold text-transparent">Núcleo TABS</p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Landing responsiva, acordeões completos, motor Web Audio e tabs em tempo real.</p>
-                    <Badge className="mt-3 border-amber-500/30 bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-300 dark:border-amber-500/30 dark:from-amber-500/20 dark:to-orange-500/20 dark:text-amber-300 light:border-orange-500/30 light:from-orange-500/20 light:to-amber-500/20 light:text-orange-600">Disponível</Badge>
+                  <div className="flex flex-wrap gap-3">
+                    <Button asChild size="lg" variant="outline" className="h-12 rounded-full border-stone-300 bg-white px-8 text-zinc-900 hover:bg-stone-100 hover:text-zinc-900">
+                      <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+                        <Instagram className="mr-2 h-4 w-4 text-zinc-900" />
+                        Abrir Instagram
+                      </a>
+                    </Button>
+
+                    <Button asChild size="lg" variant="outline" className="h-12 rounded-full border-stone-300 bg-white px-8 text-zinc-900 hover:bg-stone-100 hover:text-zinc-900">
+                      <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
+                        <Facebook className="mr-2 h-4 w-4 text-zinc-900" />
+                        Abrir Facebook
+                      </a>
+                    </Button>
                   </div>
                 </div>
 
-                <div className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-amber-500/40 bg-amber-500/10 dark:border-amber-500/40 dark:bg-amber-500/10 light:border-orange-500/40 light:bg-orange-500/10 text-sm font-bold text-amber-400 dark:text-amber-400 light:text-orange-600">v2</div>
-                    <div className="mt-2 h-full w-px bg-gradient-to-b from-amber-500/30 to-amber-500/5 dark:from-amber-500/30 dark:to-amber-500/5 light:from-orange-500/30 light:to-orange-500/5" />
+                <div className="lg:col-span-7">
+                  <div className="mb-5 flex items-center justify-start gap-2 sm:justify-end">
+                    <button
+                      type="button"
+                      aria-label="Anterior"
+                      onClick={() => scrollCarousel('left')}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 bg-white text-zinc-900 transition-colors hover:bg-stone-100"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label="Próximo"
+                      onClick={() => scrollCarousel('right')}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-300 bg-white text-zinc-900 transition-colors hover:bg-stone-100"
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </button>
                   </div>
-                  <div className="pb-8">
-                    <p className="font-semibold text-foreground/90">Cordas & Tabs</p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Violão e guitarra com tablaturas sincronizadas, técnicas de palhetada e timeline educacional.</p>
-                    <Badge variant="secondary" className="mt-3 border-amber-500/20 bg-amber-950/50 text-amber-300/80 dark:border-amber-500/20 dark:bg-amber-950/50 dark:text-amber-300/80 light:border-orange-500/20 light:bg-orange-50 light:text-orange-600/80">Em desenvolvimento</Badge>
-                  </div>
-                </div>
 
-                <div className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-muted-foreground/20 bg-muted/30 text-sm font-medium text-muted-foreground">v3</div>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-foreground/80">Modo Performático + MIDI</p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Timeline sincronizada com playback, métricas de precisão, feedback em tempo real e suporte completo a controladores MIDI.</p>
-                    <Badge variant="outline" className="mt-3 border-muted-foreground/20 text-muted-foreground">Planejado</Badge>
+                  <div
+                    ref={socialCarouselRef}
+                    className="-mx-2 flex snap-x snap-mandatory gap-4 overflow-x-auto px-2 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                  >
+                    {SOCIAL_CAROUSEL_ITEMS.map((item) => (
+                      <a
+                        key={item.id}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group relative h-[340px] min-w-[84%] snap-start overflow-hidden rounded-2xl border border-stone-200 bg-stone-100 sm:min-w-[56%] lg:min-w-[44%]"
+                      >
+                        <div className="relative h-full w-full">
+                          <Image src={item.image} alt={item.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/75 via-zinc-950/20 to-transparent" />
+                        </div>
+
+                        <div className="absolute inset-x-0 bottom-0 p-5">
+                          <p className="text-[11px] uppercase tracking-[0.24em] text-white/80">{item.platform}</p>
+                          <h3 className="mt-2 text-lg leading-tight text-white">{item.title}</h3>
+                          <p className="mt-1 text-sm text-white/80">{item.subtitle}</p>
+                        </div>
+                      </a>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -492,57 +443,56 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* CTA */}
-        <section className="relative border-t border-amber-500/10 dark:border-amber-500/10 light:border-orange-500/10 py-24 md:py-32">
-          <div className="absolute inset-0 bg-gradient-to-b from-amber-950/10 via-background to-transparent dark:from-amber-950/10 light:from-orange-50/50" />
-          <div className="container relative mx-auto px-4">
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="font-display bg-gradient-to-br from-foreground via-foreground to-amber-200/80 dark:to-amber-200/80 light:to-orange-600/80 bg-clip-text text-[clamp(2rem,4vw,3rem)] tracking-tight text-transparent">
-                Pronto para começar?
-              </h2>
-              <p className="mt-5 text-[17px] leading-relaxed text-muted-foreground">
-                Abra o acordeão virtual e experimente a qualidade do som.
-              </p>
-              <Link href="/acordeao">
-                <Button size="lg" className="group mt-10 h-14 items-center gap-3 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 dark:from-amber-500 dark:via-orange-500 dark:to-amber-600 light:from-orange-500 light:via-amber-500 light:to-orange-600 px-10 text-base font-semibold text-white shadow-xl shadow-amber-500/30 dark:shadow-amber-500/30 light:shadow-orange-500/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/40 dark:hover:shadow-amber-500/40 light:hover:shadow-orange-500/40">
-                  <span className="flex h-6 items-end gap-0.5">
-                    <span className="w-1 animate-[equalize_0.8s_ease-in-out_infinite] rounded-full bg-white" style={{ height: '100%' }} />
-                    <span className="w-1 animate-[equalize_0.6s_ease-in-out_infinite_0.2s] rounded-full bg-white" style={{ height: '60%' }} />
-                    <span className="w-1 animate-[equalize_0.7s_ease-in-out_infinite_0.4s] rounded-full bg-white" style={{ height: '80%' }} />
-                    <span className="w-1 animate-[equalize_0.5s_ease-in-out_infinite_0.1s] rounded-full bg-white" style={{ height: '40%' }} />
-                  </span>
-                  Acessar instrumento
-                </Button>
-              </Link>
+        <section id="localizacao" className="border-t border-stone-200 bg-stone-100/70 py-16 md:py-24">
+          <div className="container mx-auto px-4 lg:px-6">
+            <SectionHeader label="Localização" title="São Bento do Sul, SC" description="Atendimento local com envio para todo o Brasil." />
+            <div className="mb-6 -mt-4">
+              <Button asChild size="sm" variant="outline" className="h-10 rounded-full border-stone-300 bg-white px-5 text-zinc-900 hover:bg-stone-100 hover:text-zinc-900">
+                <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
+                  <MapPin className="mr-2 h-4 w-4" />
+                  Abrir no Google Maps
+                </a>
+              </Button>
+            </div>
+            <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-[0_8px_20px_rgba(41,37,36,0.06)]">
+              <iframe
+                title="Mapa Franz Luthier"
+                src={MAP_EMBED_URL}
+                width="100%"
+                height="420"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="h-[340px] w-full md:h-[420px]"
+              />
             </div>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-amber-500/10 dark:border-amber-500/10 light:border-orange-500/10 bg-gradient-to-b from-background to-amber-950/10 dark:to-amber-950/10 light:to-orange-50/30 py-12">
-        <div className="container mx-auto flex flex-col items-center justify-between gap-6 px-4 md:flex-row">
-          <div className="flex items-center gap-4">
-            <div className="relative h-14 w-14">
-              <Image src="/logo_semfundo.webp" alt="TABS" fill className="object-contain" />
-            </div>
-            <span className="font-script text-4xl font-semibold text-amber-500 dark:text-amber-500 light:text-orange-600">Tabs</span>
-          </div>
-          
-          <p className="text-sm text-muted-foreground">
-            © 2025 Tabs · Desenvolvido por{' '}
-            <a 
-              href="https://www.srcompanytechsolutions.com/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-amber-500 dark:text-amber-500 light:text-orange-500 hover:underline font-medium"
-            >
-              SRC Ltda
+      <a
+        href={WHATSAPP_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Falar no WhatsApp"
+        className="animate-whatsapp-ring fixed bottom-5 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/30 transition-transform hover:scale-105 md:bottom-6 md:right-6"
+      >
+        <WhatsAppIcon className="h-7 w-7 text-white" />
+      </a>
+
+      <footer className="border-t border-stone-200 bg-stone-50 py-12">
+        <div className="container mx-auto flex flex-col items-center justify-between gap-6 px-4 md:flex-row lg:px-6">
+          <Image src="/logo.png" alt="Franz Luthier" width={150} height={40} className="h-auto w-[150px] object-contain" />
+
+          <div className="flex items-center gap-6">
+            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-zinc-600 transition-colors hover:text-zinc-950">
+              Instagram
             </a>
-          </p>
-          
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
+            <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-zinc-600 transition-colors hover:text-zinc-950">
+              Facebook
+            </a>
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-zinc-600 transition-colors hover:text-zinc-950">
+              WhatsApp
+            </a>
           </div>
         </div>
       </footer>

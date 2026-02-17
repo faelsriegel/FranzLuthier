@@ -16,18 +16,51 @@ const yellowtail = Yellowtail({
 });
 
 export const metadata: Metadata = {
-  title: "TABS — Instrumentos Musicais Virtuais",
-  description: "Toque acordeão, violão e guitarra diretamente no navegador com som realista e interface intuitiva.",
-  keywords: ["acordeão virtual", "violão online", "guitarra virtual", "simulador de instrumentos", "tabs", "música online"],
+  title: "Franz Luthier | Luthier em São Bento do Sul",
+  description: "Franz Luthier em São Bento do Sul: regulagem, manutenção e customização de instrumentos de corda com atendimento local e envio para todo o Brasil.",
+  keywords: [
+    "luthier em São Bento do Sul",
+    "luthier São Bento do Sul",
+    "regulagem de guitarra São Bento do Sul",
+    "manutenção de violão São Bento do Sul",
+    "luthier em Santa Catarina",
+    "Franz Luthier",
+  ],
   icons: {
     icon: [
-      { url: "/favicon/favicon.ico" },
-      { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/logo.png", type: "image/png" },
     ],
-    apple: "/favicon/apple-touch-icon.png",
+    apple: "/logo.png",
   },
-  manifest: "/favicon/site.webmanifest",
+  openGraph: {
+    title: "Franz Luthier | Luthier em São Bento do Sul",
+    description: "Regulagem, manutenção e customização de instrumentos com atendimento em São Bento do Sul e envio para todo o Brasil.",
+    type: "website",
+    locale: "pt_BR",
+    siteName: "Franz Luthier",
+    images: [
+      {
+        url: "/logo.png",
+        width: 512,
+        height: 512,
+        alt: "Logo Franz Luthier",
+      },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  alternates: {
+    canonical: '/',
+  },
 };
 
 export default function RootLayout({
@@ -36,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className="dark scroll-smooth">
+    <html lang="pt-BR" className="light scroll-smooth">
       <body
         className={`${inter.variable} ${yellowtail.variable} font-sans antialiased`}
       >
