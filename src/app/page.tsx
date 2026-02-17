@@ -17,6 +17,7 @@ const WHATSAPP_MESSAGE = 'Olá, Franz Luthier! Vim pelo site e gostaria de um or
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 const MAP_EMBED_URL = 'https://www.google.com/maps?q=Franz+Luthier+-+Estrada+Principal+Fundão,+S/N+-+Mato+Preto,+São+Bento+do+Sul+-+SC,+89285-365&output=embed';
 const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/w6cuwRrEvmwPVqZ38?g_st=iwb';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.franzluthier.com';
 
 const SOCIAL_CAROUSEL_ITEMS = [
   {
@@ -72,15 +73,27 @@ const SOCIAL_CAROUSEL_ITEMS = [
 const localBusinessJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
+  '@id': `${SITE_URL}/#localbusiness`,
   name: 'Franz Luthier',
-  image: '/logo.png',
-  url: '/',
+  image: `${SITE_URL}/logo.png`,
+  url: SITE_URL,
   telephone: '+55 47 99225-8801',
+  priceRange: '$$',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+55 47 99225-8801',
+    contactType: 'customer service',
+    areaServed: 'BR',
+    availableLanguage: 'pt-BR',
+  },
+  hasMap: GOOGLE_MAPS_URL,
   areaServed: 'Brasil',
   address: {
     '@type': 'PostalAddress',
+    streetAddress: 'Estrada Principal Fundão, S/N - Mato Preto',
     addressLocality: 'São Bento do Sul',
     addressRegion: 'SC',
+    postalCode: '89285-365',
     addressCountry: 'BR',
   },
   sameAs: [INSTAGRAM_URL, FACEBOOK_URL],
@@ -289,15 +302,9 @@ export default function HomePage() {
           </Link>
 
           <nav className="hidden items-center gap-8 md:flex">
-            <a href="#servicos" className="text-sm font-normal transition-opacity hover:opacity-80">
-              <span className={titleGradientClass}>Serviços</span>
-            </a>
-            <a href="#diferenciais" className="text-sm font-normal transition-opacity hover:opacity-80">
-              <span className={titleGradientClass}>Diferenciais</span>
-            </a>
-            <a href="#localizacao" className="text-sm font-normal transition-opacity hover:opacity-80">
-              <span className={titleGradientClass}>Localização</span>
-            </a>
+            <a href="#servicos" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Serviços</a>
+            <a href="#diferenciais" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Diferenciais</a>
+            <a href="#localizacao" className="text-sm font-normal text-zinc-700 transition-colors hover:text-zinc-950">Localização</a>
           </nav>
 
           <Button asChild size="sm" variant="outline" className="rounded-full border-stone-300 bg-white px-3 text-zinc-900 hover:bg-stone-100 hover:text-zinc-900 sm:px-5">
@@ -326,18 +333,6 @@ export default function HomePage() {
                 <p className="mx-auto mt-4 max-w-3xl px-1 text-[13px] leading-[1.75] text-zinc-600 md:mt-8 md:text-[17px] md:leading-relaxed">
                   Luthieria especializada em instrumentos de corda, com regulagens precisas, manutenção refinada e acabamento profissional.
                 </p>
-
-                <div className="mt-7 flex flex-wrap items-center justify-center gap-2 md:mt-11 md:gap-3">
-                  <span className="rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] md:px-4 md:py-2 md:text-sm">
-                    <span className={titleGradientClass}>São Bento do Sul</span>
-                  </span>
-                  <span className="rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] md:px-4 md:py-2 md:text-sm">
-                    <span className={titleGradientClass}>Envio para todo o Brasil</span>
-                  </span>
-                  <span className="rounded-full border border-stone-300 bg-white px-3 py-1.5 text-[11px] md:px-4 md:py-2 md:text-sm">
-                    <span className={titleGradientClass}>Orçamento via DM</span>
-                  </span>
-                </div>
 
                 <div className="mt-7 flex w-full flex-col items-center justify-center gap-2.5 md:mt-11 sm:flex-row sm:gap-4">
                   <Button asChild size="lg" variant="outline" className="h-11 w-full max-w-[280px] rounded-full border-stone-300 bg-white px-6 text-sm text-zinc-900 hover:bg-stone-100 hover:text-zinc-900 md:h-12 md:w-auto md:max-w-none md:px-7 md:text-base">

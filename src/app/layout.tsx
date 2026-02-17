@@ -3,6 +3,8 @@ import { Inter, Yellowtail } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.franzluthier.com';
+
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -16,7 +18,12 @@ const yellowtail = Yellowtail({
 });
 
 export const metadata: Metadata = {
-  title: "Franz Luthier | Luthier em São Bento do Sul",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Franz Luthier | Luthier em São Bento do Sul",
+    template: "%s | Franz Luthier",
+  },
+  applicationName: "FranzLuthier",
   description: "Franz Luthier em São Bento do Sul: regulagem, manutenção e customização de instrumentos de corda com atendimento local e envio para todo o Brasil.",
   keywords: [
     "luthier em São Bento do Sul",
@@ -25,7 +32,20 @@ export const metadata: Metadata = {
     "manutenção de violão São Bento do Sul",
     "luthier em Santa Catarina",
     "Franz Luthier",
+    "luthier para guitarra",
+    "regulagem de violão",
+    "setup de instrumento",
   ],
+  authors: [{ name: "Franz Luthier" }],
+  creator: "Franz Luthier",
+  publisher: "Franz Luthier",
+  category: "music",
+  referrer: "origin-when-cross-origin",
+  formatDetection: {
+    telephone: true,
+    address: true,
+    email: true,
+  },
   icons: {
     icon: [
       { url: "/logo.png", type: "image/png" },
@@ -35,6 +55,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Franz Luthier | Luthier em São Bento do Sul",
     description: "Regulagem, manutenção e customização de instrumentos com atendimento em São Bento do Sul e envio para todo o Brasil.",
+    url: siteUrl,
     type: "website",
     locale: "pt_BR",
     siteName: "Franz Luthier",
@@ -46,6 +67,12 @@ export const metadata: Metadata = {
         alt: "Logo Franz Luthier",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Franz Luthier | Luthier em São Bento do Sul",
+    description: "Regulagem, manutenção e customização de instrumentos com atendimento em São Bento do Sul e envio para todo o Brasil.",
+    images: ["/logo.png"],
   },
   robots: {
     index: true,
@@ -59,7 +86,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: '/',
+    canonical: siteUrl,
   },
 };
 

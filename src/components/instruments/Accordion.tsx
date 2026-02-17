@@ -533,7 +533,7 @@ export default function Accordion({ config }: AccordionProps) {
             </div>
             {/* Logo/marca decorativa */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-[6px] text-amber-600/30 font-serif tracking-widest">TABS</span>
+              <span className="text-[6px] text-amber-600/30 font-serif tracking-widest">FRANZ</span>
             </div>
           </div>
           

@@ -1,4 +1,4 @@
-// Tipos globais do projeto Tabs
+// Tipos globais do projeto FranzLuthier
 
 export interface Instrument {
   id: string;
@@ -71,8 +71,8 @@ export interface GuitarConfig {
   tuning: string;
 }
 
-// Tipos para Tablatura/Guitar Hero mode
-export interface TabNote {
+// Tipos para notas em timeline musical
+export interface SongNote {
   id: string;
   time: number; // tempo em ms
   duration: number;
@@ -90,7 +90,7 @@ export interface Song {
   duration: number;
   difficulty: 'easy' | 'medium' | 'hard' | 'expert';
   instrument: 'accordion' | 'guitar' | 'both';
-  tabs: TabNote[];
+  notes: SongNote[];
   audioUrl?: string;
 }
 
