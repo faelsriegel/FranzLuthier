@@ -3,7 +3,9 @@ import { Inter, Yellowtail } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.franzluthier.com';
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://franzluthier.vercel.app');
 
 const inter = Inter({
   variable: "--font-inter",
@@ -20,11 +22,11 @@ const yellowtail = Yellowtail({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Franz Luthier | Luthier em São Bento do Sul",
+    default: "Franz Luthier – Regulagem, Manutenção e Customização",
     template: "%s | Franz Luthier",
   },
   applicationName: "FranzLuthier",
-  description: "Franz Luthier em São Bento do Sul: regulagem, manutenção e customização de instrumentos de corda com atendimento local e envio para todo o Brasil.",
+  description: "Serviços de luthier profissional em São Bento do Sul: regulagens, manutenção e customização de instrumentos de corda com acabamento técnico.",
   keywords: [
     "luthier em São Bento do Sul",
     "luthier São Bento do Sul",
@@ -57,8 +59,8 @@ export const metadata: Metadata = {
     apple: "/favicon/apple-touch-icon.png",
   },
   openGraph: {
-    title: "Franz Luthier | Luthier em São Bento do Sul",
-    description: "Regulagem, manutenção e customização de instrumentos com atendimento em São Bento do Sul e envio para todo o Brasil.",
+    title: "Franz Luthier – Luthier Profissional",
+    description: "Serviços completos de regulagem, manutenção e customização de instrumentos.",
     url: siteUrl,
     type: "website",
     locale: "pt_BR",
@@ -74,8 +76,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Franz Luthier | Luthier em São Bento do Sul",
-    description: "Regulagem, manutenção e customização de instrumentos com atendimento em São Bento do Sul e envio para todo o Brasil.",
+    title: "Franz Luthier – Luthier Profissional",
+    description: "Serviços completos de regulagem, manutenção e customização de instrumentos.",
     images: ["/twitter-image"],
   },
   robots: {
